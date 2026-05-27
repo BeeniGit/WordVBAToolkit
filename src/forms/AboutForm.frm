@@ -35,7 +35,7 @@ Attribute VB_Exposed = False
 '   N/A
 '--------------------------------------------------------
 Private Sub UserForm_Initialize()
-    Call InitializeToolkit
+    Call InitializeToolkit(True)
     
     ' Update toolkit informations
     lblVersion.Caption = "Toolkit version : " & toolkitVersion

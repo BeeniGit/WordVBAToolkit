@@ -28,7 +28,7 @@ Public openSourceLicence As String
 ' Notes :
 '   All of this information must be verified and updated with each new version of the toolkit.
 '--------------------------------------------------------
-Public Sub InitializeToolkit()
+Public Sub InitializeToolkit(show As Boolean)
     'Toolkit
     toolkitVersion = "1.1.0" 'Version format {majorUpdate}.{minorUpdate}.{Patch}
     toolkitReleaseDate = "16/03/2026" 'Date format DD/MM/YYYY
