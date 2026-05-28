@@ -35,6 +35,8 @@ A comprehensive tool for importing data from external CSV files and integrating 
 3. Copy and paste the download file "WordVBAToolkit_template.dotm" in the following path :
    ```bash
    C:\Users\{Your_User_Name}\AppData\Roaming\Microsoft\Word\STARTUP
+⚠️ Don't forget to change the ```{Your_User_Name}``` by your session name
+
 5. Open Microsoft Word and enjoy 
 
 ---
