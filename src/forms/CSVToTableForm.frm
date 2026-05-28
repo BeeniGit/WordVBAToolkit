@@ -17,6 +17,41 @@ Attribute VB_Exposed = False
 Private fileCSV As String
 
 '--------------------------------------------------------
+' Sub      : btnHelp_Click
+' Author   : BeeniGit
+' Date     : 28/05/2026
+' Version  : 1.0
+'
+' Description :
+'   Open the git URL in the wiki section for the tool Table from list
+'
+' Parameters :
+'   N/A
+'
+' Output :
+'   N/A
+'
+' Exemple :
+'   N/A
+'
+' Notes :
+'   N/A
+'--------------------------------------------------------
+Private Sub btnHelp_Click()
+    If gitRepo <> "" Then
+        On Error GoTo ErrorHandler
+        
+        ThisDocument.FollowHyperlink Address:=gitRepo & gitHelpCSV
+        
+    End If
+
+    Exit Sub
+
+ErrorHandler:
+    MsgBox "Can't open the URL, check your connexion or the URL", vbExclamation, "URL error"
+End Sub
+
+'--------------------------------------------------------
 ' Sub           : UserForm_Initialize
 ' Author        : BeeniGit
 ' Date          : 15/05/2025
@@ -283,7 +318,7 @@ Private Sub btnChooseFile_Click()
         .Title = "Choisir un fichier CSV"
         .Filters.Clear
         .Filters.Add "Fichiers CSV", "*.csv"
-        If .Show = -1 Then
+        If .show = -1 Then
             fileCSV = .SelectedItems(1)
             lblFile.Caption = fileCSV
         End If
@@ -403,7 +438,7 @@ End Sub
 '   N/A
 '--------------------------------------------------------
 Private Sub btnAbout_Click()
-    AboutForm.Show
+    AboutForm.show
 End Sub
 
 

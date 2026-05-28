@@ -1,11 +1,14 @@
 Attribute VB_Name = "GenericsFunctions"
 Public toolkitVersion As String
 Public toolkitReleaseDate As String
-Public gitRepo As String
-Public gitMainContributor As String
-Public gitMajorContributors As String
 Public openSourceLicence As String
 
+Public gitRepo As String
+Public gitIssues As String
+Public gitHelpTxt As String
+Public gitHelpCSV As String
+Public gitMainContributor As String
+Public gitMajorContributors As String
 '--------------------------------------------------------
 ' Function      : InitializeToolkit
 ' Author        : BeeniGit
@@ -35,6 +38,10 @@ Public Sub InitializeToolkit(show As Boolean)
     
     'Git informations
     gitRepo = "https://github.com/BeeniGit/WordVBAToolkit"
+    gitIssues = "/issues"
+    gitHelpTxt = "/wiki/Tool-n°1-:-Text-Formatter"
+    gitHelpCSV = "/wiki/Tool-n°2-:-Table-from-list"
+    
     gitMainContributor = "BeeniGit"
     gitMajorContributors = ""
     

@@ -110,7 +110,7 @@ Private Sub btnGitIssue_Click()
     If gitRepo <> "" Then
         On Error GoTo ErrorHandler
         
-        ThisDocument.FollowHyperlink Address:=gitRepo & "/issues"
+        ThisDocument.FollowHyperlink Address:=gitRepo & gitIssues
         
     End If
 

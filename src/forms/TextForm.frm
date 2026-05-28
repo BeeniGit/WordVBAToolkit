@@ -15,6 +15,42 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 ' ====== Global variables ======
 Public OKClicked As Boolean
+
+'--------------------------------------------------------
+' Sub      : btnHelp_Click
+' Author   : BeeniGit
+' Date     : 28/05/2026
+' Version  : 1.0
+'
+' Description :
+'   Open the git URL in the wiki section for the tool Table from list
+'
+' Parameters :
+'   N/A
+'
+' Output :
+'   N/A
+'
+' Exemple :
+'   N/A
+'
+' Notes :
+'   N/A
+'--------------------------------------------------------
+Private Sub btnHelp_Click()
+    If gitRepo <> "" Then
+        On Error GoTo ErrorHandler
+        
+        ThisDocument.FollowHyperlink Address:=gitRepo & gitHelpTxt
+        
+    End If
+
+    Exit Sub
+
+ErrorHandler:
+    MsgBox "Can't open the URL, check your connexion or the URL", vbExclamation, "URL error"
+End Sub
+
 '--------------------------------------------------------
 ' Sub      : UserForm_Initialize
 ' Author   : BeeniGit
@@ -157,7 +193,7 @@ End Sub
 '   N/A
 '--------------------------------------------------------
 Private Sub btnAbout_Click()
-    AboutForm.Show
+    AboutForm.show
 End Sub
 
 '--------------------------------------------------------
