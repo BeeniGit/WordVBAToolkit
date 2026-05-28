@@ -13,6 +13,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 ' ====== Global variables ======
 Private fileCSV As String
 
@@ -38,6 +39,7 @@ Private fileCSV As String
 '   N/A
 '--------------------------------------------------------
 Private Sub btnHelp_Click()
+    Call InitializeToolkit(True)
     If gitRepo <> "" Then
         On Error GoTo ErrorHandler
         

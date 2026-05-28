@@ -8,11 +8,12 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} TextForm
    OleObjectBlob   =   "TextForm.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
-Attribute VB_Name = "Textform"
+Attribute VB_Name = "TextForm"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 ' ====== Global variables ======
 Public OKClicked As Boolean
 
@@ -38,6 +39,7 @@ Public OKClicked As Boolean
 '   N/A
 '--------------------------------------------------------
 Private Sub btnHelp_Click()
+    Call InitializeToolkit(True)
     If gitRepo <> "" Then
         On Error GoTo ErrorHandler
         

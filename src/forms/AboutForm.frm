@@ -4,7 +4,7 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} AboutForm
    ClientHeight    =   6420
    ClientLeft      =   120
    ClientTop       =   465
-   ClientWidth     =   5760
+   ClientWidth     =   5565
    OleObjectBlob   =   "AboutForm.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -13,6 +13,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 '--------------------------------------------------------
 ' Sub      : UserForm_Initialize
 ' Author   : BeeniGit
@@ -69,7 +70,6 @@ End Sub
 '   N/A
 '--------------------------------------------------------
 Private Sub btnGit_Click()
-    Call InitializeToolkit
     If gitRepo <> "" Then
         On Error GoTo ErrorHandler
         
