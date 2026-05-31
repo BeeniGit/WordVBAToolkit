@@ -37,7 +37,7 @@ A comprehensive tool for importing data from external CSV files and integrating 
    C:\Users\{Your_User_Name}\AppData\Roaming\Microsoft\Word\STARTUP
 ⚠️ Don't forget to change the ```{Your_User_Name}``` by your session name
 
-5. Open Microsoft Word and enjoy 
+4. Open Microsoft Word and enjoy 
 
 ---
 
