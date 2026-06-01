@@ -2,8 +2,8 @@ Attribute VB_Name = "TextFormatting"
 '--------------------------------------------------------
 ' Function      : LaunchSearchWithFormatting
 ' Author        : BeeniGit
-' Date          : 15/05/2025
-' Version       : 1.0
+' Date          : 01/06/2026
+' Version       : 1.1
 ' History    :
 '
 ' Description :
@@ -66,7 +66,7 @@ Sub LaunchSearchWithFormatting( _
                     With rng.Font
                         .Bold = isBold
                         .Italic = isItalic
-                        .Underline = IIf(isUnderline, wdUnderlineSingle, wdUnderlineNone)
+                        .Underline = IIf(isUnderlined, wdUnderlineSingle, wdUnderlineNone)
                         .color = fontColor
                         .size = val(fontSizeStr)
                     End With
