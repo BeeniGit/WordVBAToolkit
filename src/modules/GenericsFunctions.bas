@@ -218,3 +218,34 @@ Sub ShuffleArray(arr() As String)
     Next i
 End Sub
 
+'--------------------------------------------------------
+' Function      : ShuffleArray
+' Author        : BeeniGit
+' Date          : 05/07/2025
+' Version       : 1.0
+' History    :
+'
+' Description :
+'   Suffle a
+'
+' Parameters :
+'   arr (String) : Initial array containing several words or characters.
+'
+' Output :
+'   arr : Mixed array using the Fisher-Yates algorithm
+'
+' Example :
+'   NA
+'
+' Notes :
+'   NA
+'--------------------------------------------------------
+Sub GetDelimiterFromName(delimiterName As String)
+    Select Case delimiterName
+        Case "Tabulation":      delimiter = vbTab
+        Case "Semicolons ;":    delimiter = ";"
+        Case "Commas":          delimiter = ","
+        Case Else:              delimiter = ";" ' Default fallback
+    End Select
+End Sub
+

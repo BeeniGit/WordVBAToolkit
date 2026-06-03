@@ -238,6 +238,8 @@ End Function
 '
 ' Parameters :
 '   filePath            (String)   : Path to the CSV file
+'   wordsDelimiter      (String)   : Delimiter for the file containing the word list
+'   wordsColumn         (Long)     : Position od the word list
 '   pageOrientation     (String)   : Page orientation (Portrait/Landscape)
 '   colCount            (Long)     : Number of columns per table
 '   rowCount            (Long)     : Number of rows per table
@@ -255,13 +257,15 @@ End Function
 '   Word tables inserted into the active document
 '
 ' Example :
-'   InsertWordsFromCSV "C:\file.csv", "Portrait", 5, 10, "Black", "Thin", "Single", "Black", "12", False, False, False, False
+'   InsertWordsFromCSV "C:\file.csv", "Semicolons ;" , "1","Portrait", 5, 10, "Black", "Thin", "Single", "Black", "12", False, False, False, False
 '
 ' Notes :
 '   One table is created per page. Words are distributed sequentially.
 '--------------------------------------------------------
 Sub InsertWordsFromCSV( _
     filePath As String, _
+    wordsDelimiter As String, _
+    wordsColumn As Long, _
     pageOrientation As String, _
     colCount As Long, _
     rowCount As Long, _
