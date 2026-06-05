@@ -32,7 +32,8 @@ Sub LaunchSearchWithFormatting( _
     isBold As Boolean, _
     isItalic As Boolean, _
     isUnderlined As Boolean, _
-    matchWord As Boolean)
+    matchWord As Boolean, _
+    noModifications As Boolean)
     
     ' ====== Variable declaration ======
     Dim searchTerms() As String
@@ -63,13 +64,22 @@ Sub LaunchSearchWithFormatting( _
                 Do While .Execute
                 
                     ' Applying the selected formatting
-                    With rng.Font
-                        .Bold = isBold
-                        .Italic = isItalic
-                        .Underline = IIf(isUnderlined, wdUnderlineSingle, wdUnderlineNone)
-                        .color = fontColor
-                        .size = val(fontSizeStr)
-                    End With
+                    If noModifications Then
+                        With rng.Font
+                            .Bold = isBold
+                            .Italic = isItalic
+                            .Underline = IIf(isUnderlined, wdUnderlineSingle, wdUnderlineNone)
+                        End With
+                    Else
+                        With rng.Font
+                            .Bold = isBold
+                            .Italic = isItalic
+                            .Underline = IIf(isUnderlined, wdUnderlineSingle, wdUnderlineNone)
+                            .color = fontColor
+                            .size = val(fontSizeStr)
+                        End With
+                    End If
+                    
                     rng.Collapse wdCollapseEnd
                 Loop
             End With

@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} TextForm 
    Caption         =   "WordVBAToolkit : Formatting macro"
-   ClientHeight    =   6810
+   ClientHeight    =   7020
    ClientLeft      =   120
    ClientTop       =   465
    ClientWidth     =   10965
@@ -83,6 +83,7 @@ Private Sub UserForm_Initialize()
         .AddItem "Blue"
         .AddItem "Green"
         .AddItem "Yellow"
+        .AddItem "Orange"
         .AddItem "Brown"
         .AddItem "Purple"
         .AddItem "Gray"
@@ -142,7 +143,15 @@ Private Sub btnOK_Click()
     End If
     
     ' Call the module function
-    Call LaunchSearchWithFormatting(txtStrings.Text, cmbFontColor.Value, cmbFontSize, chkBold.Value, chkItalic.Value, chkUnderline.Value, chkMatchWord.Value)
+    Call LaunchSearchWithFormatting( _
+                txtStrings.Text, _
+                cmbFontColor.Value, _
+                cmbFontSize, _
+                chkBold.Value, _
+                chkItalic.Value, _
+                chkUnderline.Value, _
+                chkMatchWord.Value, _
+                chkNoModifications)
 
     ' Close the form
     Unload Me

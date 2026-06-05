@@ -78,6 +78,7 @@ Function GetColorFromName(colorName As String) As Long
         Case "red":     GetColorFromName = RGB(255, 0, 0)
         Case "green":   GetColorFromName = RGB(0, 128, 0)
         Case "yellow":  GetColorFromName = RGB(255, 215, 0)
+        Case "orange":  GetColorFromName = RGB(255, 128, 0)
         Case "brown":   GetColorFromName = RGB(165, 42, 42)
         Case "purple":  GetColorFromName = RGB(128, 0, 128)
         Case "gray":    GetColorFromName = RGB(128, 128, 128)
@@ -185,6 +186,37 @@ Function GetLineStyleFromName(styleName As String) As WdLineStyle
 End Function
 
 '--------------------------------------------------------
+' Function      : GetDelimiterFromName
+' Author        : BeeniGit
+' Date          : 04/06/2026
+' Version       : 1.0
+' History    :
+'
+' Description :
+'   Function that returns the word delimiter based on the description name
+'
+' Parameters :
+'   delimiterName (String) : Delimiter name.
+'
+' Output :
+'   GetDelimiterFromName : Delimiter character based on the delimiter name
+'
+' Example :
+'   NA
+'
+' Notes :
+'   NA
+'--------------------------------------------------------
+Function GetDelimiterFromName(delimiterName As String) As String
+    Select Case delimiterName
+        Case "Tabulation":      GetDelimiterFromName = vbTab
+        Case "Semicolons ;":    GetDelimiterFromName = ";"
+        Case "Commas":          GetDelimiterFromName = ","
+        Case Else:              GetDelimiterFromName = ";" ' Default fallback
+    End Select
+End Function
+
+'--------------------------------------------------------
 ' Function      : ShuffleArray
 ' Author        : BeeniGit
 ' Date          : 05/07/2025
@@ -192,7 +224,7 @@ End Function
 ' History    :
 '
 ' Description :
-'   Suffle a
+'   Suffle a array with the "Randomize" Algorithm
 '
 ' Parameters :
 '   arr (String) : Initial array containing several words or characters.
@@ -216,36 +248,5 @@ Sub ShuffleArray(arr() As String)
         arr(i) = arr(j)
         arr(j) = temp
     Next i
-End Sub
-
-'--------------------------------------------------------
-' Function      : ShuffleArray
-' Author        : BeeniGit
-' Date          : 05/07/2025
-' Version       : 1.0
-' History    :
-'
-' Description :
-'   Suffle a
-'
-' Parameters :
-'   arr (String) : Initial array containing several words or characters.
-'
-' Output :
-'   arr : Mixed array using the Fisher-Yates algorithm
-'
-' Example :
-'   NA
-'
-' Notes :
-'   NA
-'--------------------------------------------------------
-Sub GetDelimiterFromName(delimiterName As String)
-    Select Case delimiterName
-        Case "Tabulation":      delimiter = vbTab
-        Case "Semicolons ;":    delimiter = ";"
-        Case "Commas":          delimiter = ","
-        Case Else:              delimiter = ";" ' Default fallback
-    End Select
 End Sub
 

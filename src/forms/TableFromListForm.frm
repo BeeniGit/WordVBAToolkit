@@ -83,6 +83,7 @@ Private Sub UserForm_Initialize()
         .AddItem "Blue"
         .AddItem "Green"
         .AddItem "Yellow"
+        .AddItem "Orange"
         .AddItem "Brown"
         .AddItem "Purple"
         .AddItem "Gray"
@@ -115,6 +116,7 @@ Private Sub UserForm_Initialize()
         .AddItem "Blue"
         .AddItem "Green"
         .AddItem "Yellow"
+        .AddItem "Orange"
         .AddItem "Brown"
         .AddItem "Purple"
         .AddItem "Gray"
@@ -456,20 +458,22 @@ Private Sub btnOK_Click()
     End If
     
     ' Minimum number of for the word position
-    If txtWordsColumns.Value < 1 Then
+    If txtWordsColumn.Value < 1 Then
         MsgBox "Please enter at least 1 columns for the words positions.", vbExclamation
         Exit Sub
     End If
     
     ' Maximum number of for the word position
-    If txtWordsColumns.Value > 30 Then
+    If txtWordsColumn.Value > 30 Then
         MsgBox "Please enter fewer than 30 columns for the words positions.", vbExclamation
         Exit Sub
     End If
 
     ' Call the macro with the entered parameters
-    Call InsertWordsFromCSV( _
+    Call InsertWordsFromFile( _
         fileCSV, _
+        cmbDelimiter.Value, _
+        CLng(txtWordsColumn.Value), _
         cmbOrientation.Value, _
         CLng(txtColumns.Value), _
         CLng(txtRows.Value), _

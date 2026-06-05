@@ -73,8 +73,8 @@ End Sub
 ' Notes :
 '   N/A
 '--------------------------------------------------------
-Sub LaunchCSVToTableForm(control As IRibbonControl)
-    CSVToTableForm.show
+Sub LaunchTableFromListForm(control As IRibbonControl)
+    TableFromListForm.show
 End Sub
 
 '--------------------------------------------------------
@@ -99,6 +99,6 @@ End Sub
 ' Notes :
 '   N/A
 '--------------------------------------------------------
-Sub CSV_To_Table_Form()
-    CSVToTableForm.show
+Sub Table_From_List_Form()
+    TableFromListForm.show
 End Sub

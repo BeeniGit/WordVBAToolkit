@@ -226,10 +226,10 @@ Function CreateOnePageTable( _
 End Function
 
 '--------------------------------------------------------
-' Function      : InsertWordsFromCSV
+' Function      : InsertWordsFromFile
 ' Author        : BeeniGit
 ' Date          : 02/05/2026
-' Version       : 1.0
+' Version       : 1.1
 ' History       :
 '
 ' Description :
@@ -262,7 +262,7 @@ End Function
 ' Notes :
 '   One table is created per page. Words are distributed sequentially.
 '--------------------------------------------------------
-Sub InsertWordsFromCSV( _
+Sub InsertWordsFromFile( _
     filePath As String, _
     wordsDelimiter As String, _
     wordsColumn As Long, _
@@ -306,7 +306,7 @@ Sub InsertWordsFromCSV( _
 
     ' ====== Open and read CSV file ======
     Set fso = CreateObject("Scripting.FileSystemObject")
-    Set ts = fso.OpenTextFile(filePath, 1, False, -1)
+    Set ts = fso.OpenTextFile(filePath, 1, False, -2)
 
     ' Skip header row if present
     If Not ts.AtEndOfStream Then ts.ReadLine
@@ -317,12 +317,12 @@ Sub InsertWordsFromCSV( _
         line = ts.ReadLine
 
         If Trim(line) <> "" Then
-            fields = Split(line, vbTab)
+            fields = Split(line, GetDelimiterFromName(wordsDelimiter))
 
             If UBound(fields) >= 1 Then
                 wordCount = wordCount + 1
                 ReDim Preserve tempArray(1 To wordCount)
-                tempArray(wordCount) = Trim(fields(1))
+                tempArray(wordCount) = Trim(fields(wordsColumn - 1))
             End If
         End If
 
@@ -332,7 +332,7 @@ Sub InsertWordsFromCSV( _
 
     ' ====== Validate input data ======
     If wordCount = 0 Then
-        MsgBox "No words found in CSV file.", vbExclamation
+        MsgBox "No words found in the CSV file.", vbExclamation
         Exit Sub
     End If
 
