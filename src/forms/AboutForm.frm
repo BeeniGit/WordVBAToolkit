@@ -29,7 +29,7 @@ Attribute VB_Exposed = False
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -63,7 +63,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -99,7 +99,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -136,7 +136,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :

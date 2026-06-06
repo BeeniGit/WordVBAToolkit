@@ -32,7 +32,7 @@ Private fileCSV As String
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -68,7 +68,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -196,7 +196,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -221,7 +221,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -258,7 +258,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -283,7 +283,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -320,7 +320,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -345,7 +345,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -382,7 +382,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -420,7 +420,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -506,7 +506,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -531,7 +531,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :

@@ -319,11 +319,9 @@ Sub InsertWordsFromFile( _
         If Trim(line) <> "" Then
             fields = Split(line, GetDelimiterFromName(wordsDelimiter))
 
-            If UBound(fields) >= 1 Then
-                wordCount = wordCount + 1
-                ReDim Preserve tempArray(1 To wordCount)
-                tempArray(wordCount) = Trim(fields(wordsColumn - 1))
-            End If
+            wordCount = wordCount + 1
+            ReDim Preserve tempArray(1 To wordCount)
+            tempArray(wordCount) = Trim(fields(wordsColumn - 1))
         End If
 
     Loop

@@ -32,7 +32,7 @@ Public OKClicked As Boolean
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -68,7 +68,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -128,7 +128,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -172,7 +172,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -197,7 +197,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -222,7 +222,7 @@ End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -253,7 +253,7 @@ Private Sub cmbFontSize_Change(): UpdatePreview: End Sub
 ' Output :
 '   N/A
 '
-' Exemple :
+' Example :
 '   N/A
 '
 ' Notes :
@@ -275,7 +275,7 @@ Private Sub UpdatePreview()
 
     ' Update of the preview
     With lblPreview
-        .Caption = "Exemple"
+        .Caption = "Example"
         .Font.size = size
         .Font.Bold = chkBold.Value
         .Font.Italic = chkItalic.Value
