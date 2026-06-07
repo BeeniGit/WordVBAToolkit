@@ -33,8 +33,8 @@ Public gitMajorContributors As String
 '--------------------------------------------------------
 Public Sub InitializeToolkit(show As Boolean)
     'Toolkit
-    toolkitVersion = "1.1.0" 'Version format {majorUpdate}.{minorUpdate}.{Patch}
-    toolkitReleaseDate = "16/03/2026" 'Date format DD/MM/YYYY
+    toolkitVersion = "1.0.0" 'Version format {majorUpdate}.{minorUpdate}.{Patch}
+    toolkitReleaseDate = "07/06/2026" 'Date format DD/MM/YYYY
     
     'Git informations
     gitRepo = "https://github.com/BeeniGit/WordVBAToolkit"
