@@ -330,7 +330,7 @@ Sub InsertWordsFromFile( _
 
     ' ====== Validate input data ======
     If wordCount = 0 Then
-        MsgBox "No words found in the CSV file.", vbExclamation
+        Call ErrorMessageDisplay("NoWordsCSV")
         Exit Sub
     End If
 

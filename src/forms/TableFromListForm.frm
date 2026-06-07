@@ -162,7 +162,7 @@ Private Sub UserForm_Initialize()
     ' Columns SpinButton
     With spnColumns
         .Min = 1
-        .Max = 20
+        .Max = 30
         .Value = 3
     End With
 
@@ -229,7 +229,27 @@ End Sub
 '--------------------------------------------------------
 Private Sub txtColumns_Change()
     ' ====== Variable declaration ======
-    Dim val As Long: val = CLng(txtColumns.Value)
+    Dim val As Long
+    
+    ' Check if the user input for rows contains only numeric value
+    If Not IsNumeric(txtColumns.Value) Then
+        Call ErrorMessageDisplay("TableNumeric")
+        Exit Sub
+    End If
+    
+    ' Minimum number of columns for tables
+    If txtColumns.Value < spnColumns.Min Then
+        Call ErrorMessageDisplay("TableMin")
+        Exit Sub
+    End If
+    
+    ' Maximum number of columns for tables
+    If txtColumns.Value > spnColumns.Max Then
+        Call ErrorMessageDisplay("TableMax")
+        Exit Sub
+    End If
+     
+    val = CLng(txtColumns.Value)
     
     ' Check if the user value is a number
     If IsNumeric(txtColumns.Value) Then
@@ -291,8 +311,27 @@ End Sub
 '--------------------------------------------------------
 Private Sub txtRows_Change()
     ' ====== Variable declaration ======
-    Dim val As Long: val = CLng(txtRows.Value)
+    Dim val As Long
     
+    ' Check if the user input for rows contains only numeric value
+    If Not IsNumeric(txtRows.Value) Then
+        Call ErrorMessageDisplay("TableNumeric")
+        Exit Sub
+    End If
+
+    ' Minimum number of rows for tables
+    If txtRows.Value < spnRows.Min Then
+        Call ErrorMessageDisplay("TableMin")
+        Exit Sub
+    End If
+    
+    ' Maximum number of rows for tables
+    If txtRows.Value > spnRows.Max Then
+        Call ErrorMessageDisplay("TableMax")
+        Exit Sub
+    End If
+    
+    val = CLng(txtRows.Value)
     ' Check if the user value is a number
     If IsNumeric(txtRows.Value) Then
     
@@ -353,7 +392,27 @@ End Sub
 '--------------------------------------------------------
 Private Sub txtWordsColumn_Change()
     ' ====== Variable declaration ======
-    Dim val As Long: val = CLng(txtWordsColumn.Value)
+    Dim val As Long
+    
+    ' Check if the user input for words columns contains only numeric value
+    If Not IsNumeric(txtWordsColumn.Value) Then
+        Call ErrorMessageDisplay("WordsNumeric")
+        Exit Sub
+    End If
+    
+    ' Minimum number for the words position
+    If txtWordsColumn.Value < spnWordsColumn.Min Then
+        Call ErrorMessageDisplay("WordsMin")
+        Exit Sub
+    End If
+    
+    ' Maximum number for the words position
+    If txtWordsColumn.Value > spnWordsColumn.Max Then
+        Call ErrorMessageDisplay("WordsMax")
+        Exit Sub
+    End If
+    
+    val = CLng(txtWordsColumn.Value)
     
     ' Check if the user value is a number
     If IsNumeric(txtWordsColumn.Value) Then
@@ -429,43 +488,7 @@ End Sub
 Private Sub btnOK_Click()
     ' Checking for the presence of a file
     If fileCSV = "" Then
-        MsgBox "Please select a CSV file.", vbExclamation
-        Exit Sub
-    End If
-    
-    ' Verification of the completed figure for rows and columns
-    If Not IsNumeric(txtColumns.Value) Or Not IsNumeric(txtRows.Value) Then
-        MsgBox "Please enter numeric values for the columns and rows.", vbExclamation
-        Exit Sub
-    End If
-    
-    ' Verification of the completed figure for rows and columns
-    If Not IsNumeric(txtWordsColumn.Value) Then
-        MsgBox "Please enter numeric values for the words column.", vbExclamation
-        Exit Sub
-    End If
-    
-    ' Minimum number of columns and rows for tables
-    If txtColumns.Value < 1 Or txtRows.Value < 1 Then
-        MsgBox "Please enter at least 1 columns or rows.", vbExclamation
-        Exit Sub
-    End If
-    
-    ' Maximum number of columns and rows for tables
-    If txtColumns.Value > 30 Or txtRows.Value > 30 Then
-        MsgBox "Please enter fewer than 30 columns or rows.", vbExclamation
-        Exit Sub
-    End If
-    
-    ' Minimum number of for the word position
-    If txtWordsColumn.Value < 1 Then
-        MsgBox "Please enter at least 1 columns for the words positions.", vbExclamation
-        Exit Sub
-    End If
-    
-    ' Maximum number of for the word position
-    If txtWordsColumn.Value > 30 Then
-        MsgBox "Please enter fewer than 30 columns for the words positions.", vbExclamation
+        Call ErrorMessageDisplay("CSV")
         Exit Sub
     End If
 

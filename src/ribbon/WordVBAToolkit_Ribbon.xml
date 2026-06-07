@@ -1,0 +1,20 @@
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui">
+  <ribbon>
+    <tabs>
+      <tab id="tabWordVBAToolkit" label="WordVBAToolkit">
+        <group id="grpToolkit" label="Toolkit List">
+          <button id="btnWordTable"
+                  label="Table from list"
+                  imageMso="XmlImport"
+                  size="large"
+                  onAction="LaunchTableFromListForm" />
+          <button id="btnTextFormat"
+                  label="Text formatting"
+                  imageMso="GroupFont"
+                  size="large"
+                  onAction="LaunchTextFormattingForm" />
+        </group>
+      </tab>
+    </tabs>
+  </ribbon>
+</customUI>
