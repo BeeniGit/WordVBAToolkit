@@ -42,9 +42,9 @@ A comprehensive tool for importing data from external CSV files and integrating 
 ## 🚀 Usage
 Two uses are possible : 
 1. Open the Macros section Microsoft Word (the ```Developper``` option must be enable) or press ```Alt + F8```.
-<img src="images/MacrosInterface.png" alt="Alt Text" style="width:40%; height:auto;">
+<img src="images/Setup/MacrosInterface.png" alt="Alt Text" style="width:40%; height:auto;">
 2. In the Microsoft Word ribbon, click on the tab named "WordVBAToolkit" and choose the desired tool.
-<img src="images/ToolkitRibbon.png" alt="Alt Text" style="width:80%; height:auto;">
+<img src="images/Setup/ToolkitRibbon.png" alt="Alt Text" style="width:80%; height:auto;">
 
 ### Using the Text Formatter
 1. Launch the macro named "Text_Formmating_Form".
@@ -52,7 +52,7 @@ Two uses are possible :
 3. Select the formatting options (e.g., Bold, Italic).
 4. Click "OK" to search the user string in all document and change the format.
 
-<img src="images/TextFormattingForm.png" alt="Alt Text" style="width:70%; height:auto;">
+<img src="images/TextFormatting/TextFormattingForm.png" alt="Alt Text" style="width:70%; height:auto;">
 
 ### Using the CSV Importer
 1. Launch the macro named "Table_From_List_Form".
@@ -61,7 +61,7 @@ Two uses are possible :
 4. Select the global formatting style to apply to the table content.
 5. Click "OK" to generate the table in your document. (The document must be empty before that)
 
-<img src="images/TableFromListForm.png" alt="Alt Text" style="width:70%; height:auto;">
+<img src="images/TableFromList/TableFromListForm.png" alt="Alt Text" style="width:70%; height:auto;">
 
 > ℹ️ For more information on using these tools I invite you to visit the [Wiki](https://github.com/BeeniGit/WordVBAToolkit/wiki/Home) pages of this project 
 

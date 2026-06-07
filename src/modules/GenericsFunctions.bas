@@ -250,3 +250,38 @@ Sub ShuffleArray(arr() As String)
     Next i
 End Sub
 
+'--------------------------------------------------------
+' Function      : ErrorMessageDisplay
+' Author        : BeeniGit
+' Date          : 07/06/2026
+' Version       : 1.0
+' History    :
+'
+' Description :
+'   Generic function that display error messages to the user
+'
+' Parameters :
+'   errorID (String) : Error ID
+'
+' Output :
+'   MsgBox
+'
+' Example :
+'   NA
+'
+' Notes :
+'   NA
+'--------------------------------------------------------
+Sub ErrorMessageDisplay(errorID As String)
+    Select Case errorID
+        Case "CSV":             MsgBox "Please select a CSV file.", vbExclamation
+        Case "NoWordsCSV":      MsgBox "No words found in the CSV file.", vbExclamation
+        Case "TableNumeric":    MsgBox "Please enter numeric values for the columns and rows.", vbExclamation
+        Case "WordsNumeric":    MsgBox "Please enter numeric values for the words column.", vbExclamation
+        Case "TableMin":        MsgBox "Please enter at least 1 columns or rows.", vbExclamation
+        Case "TableMax":        MsgBox "Please enter fewer than 30 columns or rows.", vbExclamation
+        Case "WordsMin":        MsgBox "Please enter at least 1 columns for the words positions.", vbExclamation
+        Case "WordsMax":        MsgBox "Please enter fewer than 30 columns for the words positions.", vbExclamation
+    End Select
+End Sub
+
