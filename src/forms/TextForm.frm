@@ -104,7 +104,7 @@ Private Sub btnOK_Click()
     
     ' Check if the input string from the user is empty
     If Trim(txtStrings) = "" Then
-        MsgBox "No characters in the field", vbExclamation
+        Call ErrorMessageDisplay("NoCharacter")
         Exit Sub
     End If
     
