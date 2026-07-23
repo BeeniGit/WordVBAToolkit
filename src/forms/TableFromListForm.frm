@@ -18,46 +18,11 @@ Attribute VB_Exposed = False
 Private fileCSV As String
 
 '--------------------------------------------------------
-' Sub      : btnHelp_Click
-' Author   : BeeniGit
-' Date     : 28/05/2026
-' Version  : 1.0
-'
-' Description :
-'   Open the git URL in the wiki section for the tool Table from list
-'
-' Parameters :
-'   N/A
-'
-' Output :
-'   N/A
-'
-' Example :
-'   N/A
-'
-' Notes :
-'   N/A
-'--------------------------------------------------------
-Private Sub btnHelp_Click()
-    Call InitializeToolkit(True)
-    If gitRepo <> "" Then
-        On Error GoTo ErrorHandler
-        
-        ThisDocument.FollowHyperlink Address:=gitRepo & gitHelpCSV
-        
-    End If
-
-    Exit Sub
-
-ErrorHandler:
-    MsgBox "Can't open the URL, check your connexion or the URL", vbExclamation, "URL error"
-End Sub
-
-'--------------------------------------------------------
 ' Sub           : UserForm_Initialize
 ' Author        : BeeniGit
-' Date          : 03/06/2026
-' Version       : 1.1
+' Date          : 23/07/2026
+' Version       : 1.2
+' History       : 1.2 - 23/07/2026 => Change min, max and default value for spinbox
 '
 ' Description :
 '   Initialization of the form
@@ -156,28 +121,29 @@ Private Sub UserForm_Initialize()
         .ListIndex = 0
     End With
     
-    txtColumns.Value = 3
-    txtRows.Value = 5
+    txtColumns.Value = TABLE_COL_DEF_VALUE
+    txtRows.Value = TABLE_ROW_DEF_VALUE
 
     ' Columns SpinButton
     With spnColumns
-        .Min = 1
-        .Max = 30
-        .Value = 3
+        .Min = TABLE_COLROW_MIN
+        .Max = TABLE_COLROW_MAX
+        .Value = TABLE_COL_DEF_VALUE
     End With
 
     ' Row SpinButton
     With spnRows
-        .Min = 1
-        .Max = 30
-        .Value = 5
+        .Min = TABLE_COLROW_MIN
+        .Max = TABLE_COLROW_MAX
+        .Value = TABLE_ROW_DEF_VALUE
     End With
     
+    txtWordsColumn = WORDS_COL_DEF_VALUE
     ' Columns SpinButton
     With spnWordsColumn
-        .Min = 1
-        .Max = 30
-        .Value = 1
+        .Min = WORDS_COL_MIN
+        .Max = WORDS_COL_MAX
+        .Value = WORDS_COL_DEF_VALUE
     End With
 End Sub
 
@@ -186,6 +152,7 @@ End Sub
 ' Author        : BeeniGit
 ' Date          : 15/05/2025
 ' Version       : 1.0
+' History       :
 '
 ' Description :
 '   Update the text for the number of columns in the form when the user clicks on the spinner.
@@ -209,8 +176,9 @@ End Sub
 '--------------------------------------------------------
 ' Sub           : txtColumns_Change
 ' Author        : BeeniGit
-' Date          : 15/05/2025
-' Version       : 1.0
+' Date          : 23/07/2026
+' Version       : 1.1
+' History       : 1.1 - 23/07/2026 => Check the limit using constant and not the spinbox limit.
 '
 ' Description :
 '   Update the column spinbutton with the user value
@@ -238,14 +206,14 @@ Private Sub txtColumns_Change()
     End If
     
     ' Minimum number of columns for tables
-    If txtColumns.Value < spnColumns.Min Then
-        Call ErrorMessageDisplay("TableMin")
+    If txtColumns.Value < TABLE_COLROW_MIN Then
+        Call ErrorMessageDisplay("TableMin", TABLE_COLROW_MIN)
         Exit Sub
     End If
     
     ' Maximum number of columns for tables
-    If txtColumns.Value > spnColumns.Max Then
-        Call ErrorMessageDisplay("TableMax")
+    If txtColumns.Value > TABLE_COLROW_MAX Then
+        Call ErrorMessageDisplay("TableMax", TABLE_COLROW_MAX)
         Exit Sub
     End If
      
@@ -255,7 +223,7 @@ Private Sub txtColumns_Change()
     If IsNumeric(txtColumns.Value) Then
     
         ' Check the limitation of the spinbutton
-        If val >= spnColumns.Min And val <= spnColumns.Max Then
+        If val >= TABLE_COL_MIN And val <= TABLE_COL_MAX Then
             
             ' Update the spinbutton
             spnColumns.Value = val
@@ -268,6 +236,7 @@ End Sub
 ' Author        : BeeniGit
 ' Date          : 15/05/2025
 ' Version       : 1.0
+' History       :
 '
 ' Description :
 '   Update the row spinbutton with the user value
@@ -291,8 +260,9 @@ End Sub
 '--------------------------------------------------------
 ' Sub           : txtRows_Change
 ' Author        : BeeniGit
-' Date          : 15/05/2025
-' Version       : 1.0
+' Date          : 23/07/2026
+' Version       : 1.1
+' History       : 1.1 - 23/07/2026 => Check the limit using constant and not the spinbox limit.
 '
 ' Description :
 '   Update the value of the top linked to the row according to the value entered by the user in the text area
@@ -320,14 +290,14 @@ Private Sub txtRows_Change()
     End If
 
     ' Minimum number of rows for tables
-    If txtRows.Value < spnRows.Min Then
-        Call ErrorMessageDisplay("TableMin")
+    If txtRows.Value < TABLE_COLROW_MIN Then
+        Call ErrorMessageDisplay("TableMin", TABLE_COLROW_MIN)
         Exit Sub
     End If
     
     ' Maximum number of rows for tables
-    If txtRows.Value > spnRows.Max Then
-        Call ErrorMessageDisplay("TableMax")
+    If txtRows.Value > TABLE_COLROW_MAX Then
+        Call ErrorMessageDisplay("TableMax", TABLE_COLROW_MAX)
         Exit Sub
     End If
     
@@ -336,7 +306,7 @@ Private Sub txtRows_Change()
     If IsNumeric(txtRows.Value) Then
     
         ' Check the limitation of the spinbutton
-        If val >= spnRows.Min And val <= spnRows.Max Then
+        If val >= TABLE_COLROW_MIN And val <= TABLE_COLROW_MAX Then
         
             ' Update the spinbutton
             spnRows.Value = val
@@ -349,6 +319,7 @@ End Sub
 ' Author        : BeeniGit
 ' Date          : 03/06/2026
 ' Version       : 1.0
+' History       :
 '
 ' Description :
 '   Update the words column spinbutton with the user value
@@ -372,8 +343,9 @@ End Sub
 '--------------------------------------------------------
 ' Sub           : txtWordsColumn_Change
 ' Author        : BeeniGit
-' Date          : 03/06/2026
-' Version       : 1.0
+' Date          : 23/07/2026
+' Version       : 1.1
+' History       : 1.1 - 23/07/2026 => Check the limit using constant and not the spinbox limit.
 '
 ' Description :
 '   Update the value of the top linked to the words columns according to the value entered by the user in the text area
@@ -401,14 +373,14 @@ Private Sub txtWordsColumn_Change()
     End If
     
     ' Minimum number for the words position
-    If txtWordsColumn.Value < spnWordsColumn.Min Then
-        Call ErrorMessageDisplay("WordsMin")
+    If txtWordsColumn.Value < WORDS_COL_MIN Then
+        Call ErrorMessageDisplay("WordsMin", WORDS_COL_MIN)
         Exit Sub
     End If
     
     ' Maximum number for the words position
-    If txtWordsColumn.Value > spnWordsColumn.Max Then
-        Call ErrorMessageDisplay("WordsMax")
+    If txtWordsColumn.Value > WORDS_COL_MAX Then
+        Call ErrorMessageDisplay("WordsMax", WORDS_COL_MAX)
         Exit Sub
     End If
     
@@ -418,7 +390,7 @@ Private Sub txtWordsColumn_Change()
     If IsNumeric(txtWordsColumn.Value) Then
     
         ' Check the limitation of the spinbutton
-        If val >= spnWordsColumn.Min And val <= spnWordsColumn.Max Then
+        If val >= WORDS_COL_MIN And val <= WORDS_COL_MAX Then
         
             ' Update the spinbutton
             spnWordsColumn.Value = val
@@ -431,6 +403,7 @@ End Sub
 ' Author        : BeeniGit
 ' Date          : 15/05/2025
 ' Version       : 1.0
+' History       :
 '
 ' Description :
 '   Ouvre une boite de dialogue Windows avec l'obligation de donner un fichier CSV
@@ -469,6 +442,7 @@ End Sub
 ' Author   : BeeniGit
 ' Date     : 15/05/2025
 ' Version  : 1.0
+' History  :
 '
 ' Description :
 '   Check the user values and lanch the formatting text function
@@ -519,6 +493,7 @@ End Sub
 ' Author   : BeeniGit
 ' Date     : 15/05/2025
 ' Version  : 1.0
+' History  :
 '
 ' Description :
 '   Close and cancel the formatting form
@@ -544,6 +519,7 @@ End Sub
 ' Author   : BeeniGit
 ' Date     : 15/05/2025
 ' Version  : 1.0
+' History  :
 '
 ' Description :
 '   Open the About form of the toolkit
@@ -562,4 +538,40 @@ End Sub
 '--------------------------------------------------------
 Private Sub btnAbout_Click()
     AboutForm.show
+End Sub
+
+'--------------------------------------------------------
+' Sub      : btnHelp_Click
+' Author   : BeeniGit
+' Date     : 23/07/2026
+' Version  : 1.1
+' History  : 23/07/2026 => Add the function ErrorMessageDisplay to display the network error. Use constant for connection.
+'
+' Description :
+'   Open the git URL in the wiki section for the tool Table from list
+'
+' Parameters :
+'   N/A
+'
+' Output :
+'   N/A
+'
+' Example :
+'   N/A
+'
+' Notes :
+'   N/A
+'--------------------------------------------------------
+Private Sub btnHelp_Click()
+    If GIT_REPO <> "" Then
+        On Error GoTo ErrorHandler
+        
+        ThisDocument.FollowHyperlink Address:=GIT_REPO & GIT_HELP_WORDS
+        
+    End If
+
+    Exit Sub
+
+ErrorHandler:
+    Call ErrorMessageDisplay("NoConnection")
 End Sub
