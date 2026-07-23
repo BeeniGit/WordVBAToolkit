@@ -86,7 +86,7 @@ Sub LaunchSearchWithFormatting( _
         End If
     Next term
     
-    MsgBox "Formatting done."
+    Call FinishMessageDisplay("TextFormatting")
     
     ' Close the form
     Unload Textform

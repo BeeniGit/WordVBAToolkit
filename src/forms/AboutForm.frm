@@ -17,8 +17,9 @@ Attribute VB_Exposed = False
 '--------------------------------------------------------
 ' Sub      : UserForm_Initialize
 ' Author   : BeeniGit
-' Date     : 18/03/2026
-' Version  : 1.0
+' Date     : 23/07/2026
+' Version  : 1.1
+' History  : 1.1 - 23/07/2026 => Use constant for initialization
 '
 ' Description :
 '   About form initialization
@@ -36,23 +37,23 @@ Attribute VB_Exposed = False
 '   N/A
 '--------------------------------------------------------
 Private Sub UserForm_Initialize()
-    Call InitializeToolkit(True)
     
     ' Update toolkit informations
-    lblVersion.Caption = "Toolkit version : " & toolkitVersion
-    lblReleaseDate.Caption = "Release date : " & toolkitReleaseDate
-    lblLicence.Caption = "Open source licence : " & openSourceLicence
+    lblVersion.Caption = "Toolkit version : " & TOOLKIT_VERSION
+    lblReleaseDate.Caption = "Release date : " & TOOLKIT_RELEASE_DATE
+    lblLicence.Caption = "Open source licence : " & OPEN_SOURCE_LICENCE
     
-    lblMainContributor.Caption = "Principal contributor : " & gitMainContributor
-    lblMajorContributors.Caption = "Major contributors : " & gitMajorContributors
+    lblMainContributor.Caption = "Principal contributor : " & GIT_MAIN_CONTRIBUTOR
+    lblMajorContributors.Caption = "Major contributors : " & GIT_MAJOR_CONTRIBUTORS
 
 End Sub
 
 '--------------------------------------------------------
 ' Sub      : btnGit_Click
 ' Author   : BeeniGit
-' Date     : 18/03/2026
-' Version  : 1.0
+' Date     : 23/07/2026
+' Version  : 1.1
+' History  : 23/07/2026 => Add the function ErrorMessageDisplay to display the network error. Use constant for connection.
 '
 ' Description :
 '   Open the git URL
@@ -70,25 +71,26 @@ End Sub
 '   N/A
 '--------------------------------------------------------
 Private Sub btnGit_Click()
-    If gitRepo <> "" Then
+    If GIT_REPO <> "" Then
         On Error GoTo ErrorHandler
         
-        ThisDocument.FollowHyperlink Address:=gitRepo
+        ThisDocument.FollowHyperlink Address:=GIT_REPO
         
     End If
 
     Exit Sub
 
 ErrorHandler:
-    MsgBox "Can't open the URL, check your connexion or the URL", vbExclamation, "URL error"
+    Call ErrorMessageDisplay("NoConnection")
 
 End Sub
 
 '--------------------------------------------------------
 ' Sub      : btnGitIssue_Click
 ' Author   : BeeniGit
-' Date     : 18/03/2026
-' Version  : 1.0
+' Date     : 23/07/2026
+' Version  : 1.1
+' History  : 23/07/2026 => Add the function ErrorMessageDisplay to display the network error. Use constant for connection.
 '
 ' Description :
 '   Open the git URL in the issue section
@@ -106,18 +108,17 @@ End Sub
 '   N/A
 '--------------------------------------------------------
 Private Sub btnGitIssue_Click()
-    
-    If gitRepo <> "" Then
+    If GIT_REPO <> "" Then
         On Error GoTo ErrorHandler
         
-        ThisDocument.FollowHyperlink Address:=gitRepo & gitIssues
+        ThisDocument.FollowHyperlink Address:=GIT_REPO & GIT_ISSUES
         
     End If
 
     Exit Sub
 
 ErrorHandler:
-    MsgBox "Can't open the URL, check your connexion or the URL", vbExclamation, "URL error"
+    Call ErrorMessageDisplay("NoConnection")
 
 End Sub
 
@@ -126,6 +127,7 @@ End Sub
 ' Author   : BeeniGit
 ' Date     : 18/03/2026
 ' Version  : 1.0
+' History  :
 '
 ' Description :
 '   Close the about form

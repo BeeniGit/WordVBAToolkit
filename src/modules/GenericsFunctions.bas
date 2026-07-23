@@ -1,54 +1,4 @@
 Attribute VB_Name = "GenericsFunctions"
-Public toolkitVersion As String
-Public toolkitReleaseDate As String
-Public openSourceLicence As String
-
-Public gitRepo As String
-Public gitIssues As String
-Public gitHelpTxt As String
-Public gitHelpCSV As String
-Public gitMainContributor As String
-Public gitMajorContributors As String
-'--------------------------------------------------------
-' Function      : InitializeToolkit
-' Author        : BeeniGit
-' Date          : 15/05/2025
-' Version       : 1.0
-' History       :
-'
-' Description :
-'   Initialize the public variables
-'
-' Parameters :
-'   N/A
-'
-' Output :
-'   N/A
-'
-' Example :
-'   N/A
-'
-' Notes :
-'   All of this information must be verified and updated with each new version of the toolkit.
-'--------------------------------------------------------
-Public Sub InitializeToolkit(show As Boolean)
-    'Toolkit
-    toolkitVersion = "1.0.0" 'Version format {majorUpdate}.{minorUpdate}.{Patch}
-    toolkitReleaseDate = "07/06/2026" 'Date format DD/MM/YYYY
-    
-    'Git informations
-    gitRepo = "https://github.com/BeeniGit/WordVBAToolkit"
-    gitIssues = "/issues"
-    gitHelpTxt = "/wiki/Tool-n°1-:-Text-Formatter"
-    gitHelpCSV = "/wiki/Tool-n°2-:-Table-from-list"
-    
-    gitMainContributor = "BeeniGit"
-    gitMajorContributors = ""
-    
-    'Open sour Licence
-    openSourceLicence = "MIT"
-End Sub
-
 '--------------------------------------------------------
 ' Function      : GetColorFromName
 ' Author        : BeeniGit
@@ -253,9 +203,9 @@ End Sub
 '--------------------------------------------------------
 ' Function      : ErrorMessageDisplay
 ' Author        : BeeniGit
-' Date          : 07/06/2026
-' Version       : 1.0
-' History    :
+' Date          : 23/07/2026
+' Version       : 1.1
+' History       : 1.1 - 23/07/2026 => Add the error "NoConnection" from the AboutForm. Add optionnal value for Table limit.
 '
 ' Description :
 '   Generic function that display error messages to the user
@@ -272,16 +222,45 @@ End Sub
 ' Notes :
 '   NA
 '--------------------------------------------------------
-Sub ErrorMessageDisplay(errorID As String)
+Sub ErrorMessageDisplay(errorID As String, Optional optionnalValue As Variant)
     Select Case errorID
-        Case "CSV":             MsgBox "Please select a CSV file.", vbExclamation
-        Case "NoWordsCSV":      MsgBox "No words found in the CSV file.", vbExclamation
-        Case "TableNumeric":    MsgBox "Please enter numeric values for the columns and rows.", vbExclamation
-        Case "WordsNumeric":    MsgBox "Please enter numeric values for the words column.", vbExclamation
-        Case "TableMin":        MsgBox "Please enter at least 1 columns or rows.", vbExclamation
-        Case "TableMax":        MsgBox "Please enter fewer than 30 columns or rows.", vbExclamation
-        Case "WordsMin":        MsgBox "Please enter at least 1 columns for the words positions.", vbExclamation
-        Case "WordsMax":        MsgBox "Please enter fewer than 30 columns for the words positions.", vbExclamation
+        Case "CSV":             MsgBox "Please select a CSV file.", vbExclamation, "File error"
+        Case "NoWordsCSV":      MsgBox "No words found in the CSV file.", vbExclamation, "File error"
+        Case "TableNumeric":    MsgBox "Please enter numeric values for the columns and rows.", vbExclamation, "Table error"
+        Case "WordsNumeric":    MsgBox "Please enter numeric values for the words column.", vbExclamation, "Words position error"
+        Case "TableMin":        MsgBox "Please enter at least " & optionnalValue & " columns or rows.", vbExclamation, "Table error"
+        Case "TableMax":        MsgBox "Please enter fewer than " & optionnalValue & " columns or rows.", vbExclamation, "Table error"
+        Case "WordsMin":        MsgBox "Please enter at least " & optionnalValue & " columns for the words positions.", vbExclamation, "Words position error"
+        Case "WordsMax":        MsgBox "Please enter fewer than " & optionnalValue & " columns for the words positions.", vbExclamation, "Words position error"
+        Case "NoConnection":    MsgBox "Can't open the URL, check your connexion or the URL", vbExclamation, "URL error"
     End Select
 End Sub
 
+'--------------------------------------------------------
+' Function      : FinishMessageDisplay
+' Author        : BeeniGit
+' Date          : 23/07/2026
+' Version       : 1.0
+' History       :
+'
+' Description :
+'   Generic function that display finish messages to the user
+'
+' Parameters :
+'   finishID (String) : finish ID
+'
+' Output :
+'   MsgBox
+'
+' Example :
+'   NA
+'
+' Notes :
+'   NA
+'--------------------------------------------------------
+Sub FinishMessageDisplay(finishID As String, Optional optionnalValue1 As Variant, Optional optionnalValue2 As Variant)
+    Select Case finishID
+        Case "TextFormatting":  MsgBox "Formatting done.", vbInformation
+        Case "WordsInsertion":  MsgBox "Insertion complete: " & optionnalValue1 & " words across " & optionnalValue2 & " pages.", vbInformation
+    End Select
+End Sub

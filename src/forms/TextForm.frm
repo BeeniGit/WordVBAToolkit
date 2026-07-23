@@ -18,46 +18,11 @@ Attribute VB_Exposed = False
 Public OKClicked As Boolean
 
 '--------------------------------------------------------
-' Sub      : btnHelp_Click
-' Author   : BeeniGit
-' Date     : 28/05/2026
-' Version  : 1.0
-'
-' Description :
-'   Open the git URL in the wiki section for the tool Table from list
-'
-' Parameters :
-'   N/A
-'
-' Output :
-'   N/A
-'
-' Example :
-'   N/A
-'
-' Notes :
-'   N/A
-'--------------------------------------------------------
-Private Sub btnHelp_Click()
-    Call InitializeToolkit(True)
-    If gitRepo <> "" Then
-        On Error GoTo ErrorHandler
-        
-        ThisDocument.FollowHyperlink Address:=gitRepo & gitHelpTxt
-        
-    End If
-
-    Exit Sub
-
-ErrorHandler:
-    MsgBox "Can't open the URL, check your connexion or the URL", vbExclamation, "URL error"
-End Sub
-
-'--------------------------------------------------------
 ' Sub      : UserForm_Initialize
 ' Author   : BeeniGit
 ' Date     : 15/05/2025
 ' Version  : 1.0
+' History  :
 '
 ' Description :
 '   Formatting form initialization
@@ -118,6 +83,7 @@ End Sub
 ' Author   : BeeniGit
 ' Date     : 15/05/2025
 ' Version  : 1.0
+' History  :
 '
 ' Description :
 '   Check the user values and lanch the formatting text function
@@ -162,6 +128,7 @@ End Sub
 ' Author   : BeeniGit
 ' Date     : 15/05/2025
 ' Version  : 1.0
+' History  :
 '
 ' Description :
 '   Close and cancel the formatting form
@@ -187,6 +154,7 @@ End Sub
 ' Author   : BeeniGit
 ' Date     : 15/05/2025
 ' Version  : 1.0
+' History  :
 '
 ' Description :
 '   Open the About form of the toolkit
@@ -208,10 +176,47 @@ Private Sub btnAbout_Click()
 End Sub
 
 '--------------------------------------------------------
+' Sub      : btnHelp_Click
+' Author   : BeeniGit
+' Date     : 23/07/2026
+' Version  : 1.1
+' History  : 23/07/2026 => Add the function ErrorMessageDisplay to display the network error. Use constant for connection.
+'
+' Description :
+'   Open the git URL in the wiki section for the tool Table from list
+'
+' Parameters :
+'   N/A
+'
+' Output :
+'   N/A
+'
+' Example :
+'   N/A
+'
+' Notes :
+'   N/A
+'--------------------------------------------------------
+Private Sub btnHelp_Click()
+    If GIT_REPO <> "" Then
+        On Error GoTo ErrorHandler
+        
+        ThisDocument.FollowHyperlink Address:=GIT_REPO & GIT_HELP_TXT
+        
+    End If
+
+    Exit Sub
+
+ErrorHandler:
+    Call ErrorMessageDisplay("NoConnection")
+End Sub
+
+'--------------------------------------------------------
 ' Sub      : chkBold_Click / chkItalic_Click / chkUnderline_Click / cmbFontColor_Change / cmbFontSize_Change
 ' Author   : BeeniGit
 ' Date     : 15/05/2025
 ' Version  : 1.0
+' History  :
 '
 ' Description :
 '   Launch the update function for the form preview when the user click on options
@@ -243,6 +248,7 @@ Private Sub cmbFontSize_Change(): UpdatePreview: End Sub
 ' Author   : BeeniGit
 ' Date     : 15/05/2025
 ' Version  : 1.0
+' History  :
 '
 ' Description :
 '   Update the preview label with the user configuration.

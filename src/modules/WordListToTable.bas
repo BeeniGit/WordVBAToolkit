@@ -396,6 +396,6 @@ Sub InsertWordsFromFile( _
         End If
     Next p
 
-    MsgBox "Insertion complete: " & wordCount & " words across " & totalPages & " pages.", vbInformation
+    Call FinishMessageDisplay("WordsInsertion", wordCount, totalPages)
 
 End Sub
