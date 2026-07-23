@@ -13,10 +13,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-' ====== Global variables ======
-Public OKClicked As Boolean
-
 '--------------------------------------------------------
 ' Sub      : UserForm_Initialize
 ' Author   : BeeniGit

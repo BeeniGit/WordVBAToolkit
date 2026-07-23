@@ -224,7 +224,7 @@ End Sub
 '--------------------------------------------------------
 Sub ErrorMessageDisplay(errorID As String, Optional optionnalValue As Variant)
     Select Case errorID
-        Case "NoCharacter":      MsgBox "No characters in the field", vbExclamation, "Formatting error"
+        Case "NoCharacter":     MsgBox "No characters in the field", vbExclamation, "Formatting error"
         Case "CSV":             MsgBox "Please select a CSV file.", vbExclamation, "File error"
         Case "NoWordsCSV":      MsgBox "No words found in the CSV file.", vbExclamation, "File error"
         Case "TableNumeric":    MsgBox "Please enter numeric values for the columns and rows.", vbExclamation, "Table error"

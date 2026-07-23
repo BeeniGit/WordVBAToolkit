@@ -4,8 +4,8 @@ Attribute VB_Name = "Config"
 
 '---- Toolkit informations ----
 ' release
-Public Const TOOLKIT_VERSION As String = "1.0.0" 'Version format {majorUpdate}.{minorUpdate}.{Patch}
-Public Const TOOLKIT_RELEASE_DATE As String = "07/06/2026" 'Date format DD/MM/YYYY
+Public Const TOOLKIT_VERSION As String = "1.1.0" 'Version format {majorUpdate}.{minorUpdate}.{Patch}
+Public Const TOOLKIT_RELEASE_DATE As String = "23/07/2026" 'Date format DD/MM/YYYY
     
 ' Git informations
 Public Const GIT_REPO As String = "https://github.com/BeeniGit/WordVBAToolkit"
