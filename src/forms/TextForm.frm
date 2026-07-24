@@ -174,12 +174,13 @@ End Sub
 '--------------------------------------------------------
 ' Sub      : btnHelp_Click
 ' Author   : BeeniGit
-' Date     : 23/07/2026
-' Version  : 1.1
-' History  : 23/07/2026 => Add the function ErrorMessageDisplay to display the network error. Use constant for connection.
+' Date     : 24/07/2026
+' Version  : 1.2
+' History  : 1.1 - 23/07/2026 => Add the function ErrorMessageDisplay to display the network error. Use constant for connection.
+'            1.2 - 24/07/2026 => Integrate the code lines into a generic function "openURL"
 '
 ' Description :
-'   Open the git URL in the wiki section for the tool Table from list
+'   Open the git URL in the wiki section for the formatting tool
 '
 ' Parameters :
 '   N/A
@@ -194,17 +195,7 @@ End Sub
 '   N/A
 '--------------------------------------------------------
 Private Sub btnHelp_Click()
-    If GIT_REPO <> "" Then
-        On Error GoTo ErrorHandler
-        
-        ThisDocument.FollowHyperlink Address:=GIT_REPO & GIT_HELP_TXT
-        
-    End If
-
-    Exit Sub
-
-ErrorHandler:
-    Call ErrorMessageDisplay("NoConnection")
+    Call openURL(GIT_REPO & GIT_HELP_TXT)
 End Sub
 
 '--------------------------------------------------------

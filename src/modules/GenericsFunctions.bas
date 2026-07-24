@@ -1,4 +1,7 @@
 Attribute VB_Name = "GenericsFunctions"
+Public g_LatestVersion As String
+Public g_LatestReleaseURL As String
+
 '--------------------------------------------------------
 ' Function      : GetColorFromName
 ' Author        : BeeniGit
@@ -201,6 +204,252 @@ Sub ShuffleArray(arr() As String)
 End Sub
 
 '--------------------------------------------------------
+' Function      : GetLatestReleaseJSON
+' Author        : BeeniGit
+' Date          : 24/07/2026
+' Version       : 1.0
+' History       :
+'
+' Description :
+'   Get a JSON file from the project repository. This JSON file contains the last production version.
+'
+' Parameters :
+'   NA
+'
+' Output :
+'   GetLatestReleaseJSON    (String) :  JSON file from the project repo
+'
+' Example :
+'   NA
+'
+' Notes :
+'   NA
+'--------------------------------------------------------
+Private Function GetLatestReleaseJSON() As String
+    Dim http As Object
+    On Error GoTo ErrHandler
+
+    ' Definitoon of the http objet
+    Set http = CreateObject("MSXML2.ServerXMLHTTP.6.0")
+    
+    ' Definition of the http request to the Github's API
+    http.Open "GET", GIT_REPO_UPDATE, False
+    http.SetRequestHeader "User-Agent", "WordVBAToolkit-UpdateChecker"
+    http.SetRequestHeader "Accept", "application/vnd.github+json"
+    http.setTimeouts 3000, 3000, 5000, 5000
+    
+    ' Send the http request
+    http.Send
+
+    ' Get status of the request
+    If http.Status = 200 Then
+        ' Github answer with the JSON file
+        GetLatestReleaseJSON = http.responseText
+    Else
+        ' Time out or any other errors
+        GetLatestReleaseJSON = ""
+        Call ErrorMessageDisplay("UpdateError")
+    End If
+    Exit Function
+
+ErrHandler:
+    GetLatestReleaseJSON = ""
+    Call ErrorMessageDisplay("NoConnection")
+End Function
+
+'--------------------------------------------------------
+' Function      : ExtractJSONValue
+' Author        : BeeniGit
+' Date          : 24/07/2026
+' Version       : 1.0
+' History       :
+'
+' Description :
+'   Get a JSON file from the project repository. This JSON file contains the last production version.
+'
+' Parameters :
+'   json                (String)    : JSON file
+'   key                 (String)    : Searched key into JSON file
+'
+' Output :
+'   ExtractJSONValue    (String)    : Value corresponding to the requested key
+'
+' Example :
+'   ExtractJSONValue(JSONfile, "tag_name") => value under the "tag_name" of the JSON contains the value "V1.1.0", the function return "v1.1.0"
+'
+' Notes :
+'   NA
+'--------------------------------------------------------
+Private Function ExtractJSONValue(ByVal json As String, ByVal key As String) As String
+    Dim searchKey As String
+    Dim posStart As Long
+    Dim posQuoteStart As Long
+    Dim posQuoteEnd As Long
+
+    ' Definition of the search string
+    searchKey = """" & key & """:"""
+    
+    ' Search the first position of the search string in the JSON file.
+    posStart = InStr(json, searchKey) ' If not found, default value : 0
+    If posStart = 0 Then Exit Function
+
+    ' Add offset to the first position to be able to detect the end of the value
+    posQuoteStart = posStart + Len(searchKey)
+    
+    ' Search for quote marks to be able to detect the end of the value.
+    posQuoteEnd = InStr(posQuoteStart, json, """")
+    If posQuoteEnd = 0 Then Exit Function
+
+    ExtractJSONValue = Mid(json, posQuoteStart, posQuoteEnd - posQuoteStart)
+End Function
+
+'--------------------------------------------------------
+' Function      : CompareVersions
+' Author        : BeeniGit
+' Date          : 24/07/2026
+' Version       : 1.0
+' History       :
+'
+' Description :
+'   Compare the version between the twon inputs.
+'
+' Parameters :
+'   lovalVersion        (String)    : Local version get by the programm
+'   lastVersion         (String)    : Last version stored into the git repository
+'
+' Output :
+'   CompareVersions     (Integer)   : Output value of the comparaison. More informations about the output value avaliable in the Notes.
+'
+' Example :
+'   CompareVersions("v1.0.0", "v1.1.0") return -1
+'
+' Notes :
+' Output values of the function
+'       1 : The local version is higher than the last version .
+'       -1: The local version is lower than the latest version.
+'       0 : The two versions are identical.
+'--------------------------------------------------------
+Public Function CompareVersions(ByVal lovalVersion As String, ByVal lastVersion As String) As Integer
+    Dim localVersionParts() As String
+    Dim lastVersionParts() As String
+    Dim localVersionValue As Long
+    Dim lastVersionValue As Long
+    Dim i As Long
+    Dim maxParts As Long
+
+    ' Split the version values using the "." character. Remove the first character of the versions.
+    localVersionParts = Split(Replace(LCase(lovalVersion), "v", ""), ".")
+    lastVersionParts = Split(Replace(LCase(lastVersion), "v", ""), ".")
+    
+    ' Definition of the number of parts
+    maxParts = IIf(UBound(localVersionParts) > UBound(lastVersionParts), UBound(localVersionParts), UBound(lastVersionParts))
+
+    ' Version comparaison
+    For i = 0 To maxParts
+        localVersionValue = 0: lastVersionValue = 0
+        If i <= UBound(localVersionParts) Then localVersionValue = val(localVersionParts(i))
+        If i <= UBound(lastVersionParts) Then lastVersionValue = val(lastVersionParts(i))
+        If localVersionValue <> lastVersionValue Then
+            CompareVersions = IIf(localVersionValue > lastVersionValue, 1, -1)
+            Exit Function
+        End If
+    Next i
+    CompareVersions = 0
+End Function
+
+'--------------------------------------------------------
+' Function      : CheckForUpdates
+' Author        : BeeniGit
+' Date          : 24/07/2026
+' Version       : 1.0
+' History       :
+'
+' Description :
+'   Check the local version of the toolkit with the last version of the repository
+'
+' Parameters :
+'   NA
+'
+' Output :
+'   NA
+'
+' Example :
+'   NA
+'
+' Notes :
+'   NA
+'--------------------------------------------------------
+Public Function CheckForUpdates() As Boolean
+    Dim json As String
+    Dim latestTag As String
+    Dim latestURL As String
+    
+    ' Get the JSON file from the last release
+    json = GetLatestReleaseJSON()
+
+    ' Check if empty file
+    If json = "" Then
+        Exit Function
+    End If
+    
+    ' Search the key "tag_name" into the json file
+    latestTag = ExtractJSONValue(json, "tag_name")
+    If latestTag = "" Then
+        Exit Function
+    End If
+    
+    ' Search the key "html_url" into the json file
+    latestURL = ExtractJSONValue(json, "html_url")
+    If latestURL = "" Then
+        Exit Function
+    End If
+
+    g_LatestVersion = latestTag
+    g_LatestReleaseURL = latestURL
+
+    CheckForUpdates = (CompareVersions(TOOLKIT_VERSION, latestTag) < 0)
+End Function
+
+'--------------------------------------------------------
+' Function      : openURL
+' Author        : BeeniGit
+' Date          : 24/07/2026
+' Version       : 1.0
+' History       :
+'
+' Description :
+'   Open a URL in the user’s primary browser. Consider network configuration errors.
+'
+' Parameters :
+'   NA
+'
+' Output :
+'   NA
+'
+' Example :
+'   NA
+'
+' Notes :
+'   NA
+'--------------------------------------------------------
+Public Sub openURL(url As String)
+    ' Check if the url is NULL
+    If url <> "" Then
+        ' Link the error to the ErrorHandler section
+        On Error GoTo ErrorHandler
+        
+        ' Open the URL
+        ThisDocument.FollowHyperlink Address:=url
+        
+    End If
+
+    Exit Sub
+
+ErrorHandler:
+    Call ErrorMessageDisplay("NoConnection")
+End Sub
+
+'--------------------------------------------------------
 ' Function      : ErrorMessageDisplay
 ' Author        : BeeniGit
 ' Date          : 23/07/2026
@@ -233,7 +482,8 @@ Sub ErrorMessageDisplay(errorID As String, Optional optionnalValue As Variant)
         Case "TableMax":        MsgBox "Please enter fewer than " & optionnalValue & " columns or rows.", vbExclamation, "Table error"
         Case "WordsMin":        MsgBox "Please enter at least " & optionnalValue & " columns for the words positions.", vbExclamation, "Words position error"
         Case "WordsMax":        MsgBox "Please enter fewer than " & optionnalValue & " columns for the words positions.", vbExclamation, "Words position error"
-        Case "NoConnection":    MsgBox "Can't open the URL, check your connexion or the URL", vbExclamation, "URL error"
+        Case "NoConnection":    MsgBox "Can't open the URL, check your connection or the URL", vbExclamation, "URL error"
+        Case "UpdateError":     MsgBox "Error n:" & optionnalValue & " Can't access to the update status, check your connection", vbExclamation, "URL error"
     End Select
 End Sub
 
