@@ -74,9 +74,9 @@ End Sub
 '--------------------------------------------------------
 Private Sub lblUpdate()
     If CheckForUpdates() Then
-        lblUpdateStatus.Caption = "New release available : A new version is available : " & g_LatestVersion
+        lblUpdateStatus.Caption = "A new version is available : " & g_LatestVersion
     Else
-        lblUpdateStatus.Caption = "New release available : You are already up to date"
+        lblUpdateStatus.Caption = "You are already up to date"
     End If
 
 End Sub
