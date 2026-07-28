@@ -75,6 +75,8 @@ End Sub
 Private Sub lblUpdate()
     If CheckForUpdates() Then
         lblUpdateStatus.Caption = "A new version is available : " & g_LatestVersion
+    ElseIf g_NetworkError Then
+        lblUpdateStatus.Caption = "Connection error"
     Else
         lblUpdateStatus.Caption = "You are already up to date"
     End If

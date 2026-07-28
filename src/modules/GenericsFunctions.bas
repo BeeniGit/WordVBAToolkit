@@ -3,6 +3,7 @@ Public g_LatestVersion As String
 Public g_LatestReleaseURL As String
 
 Public g_UpdateAvailable As Boolean
+Public g_NetworkError As Boolean
 
 '--------------------------------------------------------
 ' Function      : GetColorFromName
@@ -247,16 +248,18 @@ Private Function GetLatestReleaseJSON() As String
     If http.Status = 200 Then
         ' Github answer with the JSON file
         GetLatestReleaseJSON = http.responseText
+        g_NetworkError = False
     Else
         ' Time out or any other errors
+        g_NetworkError = True
         GetLatestReleaseJSON = ""
         Call ErrorMessageDisplay("UpdateError")
     End If
     Exit Function
 
 ErrHandler:
+    g_NetworkError = True
     GetLatestReleaseJSON = ""
-    Call ErrorMessageDisplay("NoConnection")
 End Function
 
 '--------------------------------------------------------
