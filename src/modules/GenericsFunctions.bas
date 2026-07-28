@@ -3,7 +3,6 @@ Public g_LatestVersion As String
 Public g_LatestReleaseURL As String
 
 Public g_UpdateAvailable As Boolean
-Public g_Ribbon As IRibbonUI
 
 '--------------------------------------------------------
 ' Function      : GetColorFromName
@@ -415,138 +414,8 @@ Public Function CheckForUpdates() As Boolean
     CheckForUpdates = g_UpdateAvailable
 End Function
 
-'--------------------------------------------------------
-' Function      : Ribbon_OnLoad
-' Author        : BeeniGit
-' Date          : 26/06/2026
-' Version       : 1.0
-' History       :
-'
-' Description :
-'   Function that returns the RBG code based on the name of the color passed as a parameter
-'
-' Parameters :
-'   NA
-'
-' Output :
-'   NA
-'
-' Example :
-'   NA
-'
-' Notes :
-'   NA
-'--------------------------------------------------------
-Sub Ribbon_OnLoad(ribbon As IRibbonUI)
-    Set g_Ribbon = ribbon
-    
-    Application.OnTime Now + TimeSerial(0, 0, 2), "Ribbon.DeferredUpdateCheck"
-End Sub
 
-'--------------------------------------------------------
-' Function      : DeferredUpdateCheck
-' Author        : BeeniGit
-' Date          : 26/06/2026
-' Version       : 1.0
-' History       :
-'
-' Description :
-'
-'
-' Parameters :
-'   NA
-'
-' Output :
-'   NA
-'
-' Example :
-'   NA
-'
-' Notes :
-'   NA
-'--------------------------------------------------------
-Private Sub DeferredUpdateCheck()
-    CheckForUpdates
-    If Not g_Ribbon Is Nothing Then g_Ribbon.InvalidateControl "btnUpdate"
-End Sub
 
-'--------------------------------------------------------
-' Function      : GetUpdateVisible
-' Author        : BeeniGit
-' Date          : 26/06/2026
-' Version       : 1.0
-' History       :
-'
-' Description :
-'
-'
-' Parameters :
-'   NA
-'
-' Output :
-'   NA
-'
-' Example :
-'   NA
-'
-' Notes :
-'   NA
-'--------------------------------------------------------
-Sub GetUpdateVisible(control As IRibbonControl, ByRef returnedVal)
-    returnedVal = g_UpdateAvailable
-End Sub
-
-'--------------------------------------------------------
-' Function      : GetUpdateLabel
-' Author        : BeeniGit
-' Date          : 26/06/2026
-' Version       : 1.0
-' History       :
-'
-' Description :
-'
-'
-' Parameters :
-'   NA
-'
-' Output :
-'   NA
-'
-' Example :
-'   NA
-'
-' Notes :
-'   NA
-'--------------------------------------------------------
-Sub GetUpdateLabel(control As IRibbonControl, ByRef returnedVal)
-    returnedVal = "A new version is available : " & g_LatestVersion
-End Sub
-
-'--------------------------------------------------------
-' Function      : OnUpdateClick
-' Author        : BeeniGit
-' Date          : 26/06/2026
-' Version       : 1.0
-' History       :
-'
-' Description :
-'
-'
-' Parameters :
-'   NA
-'
-' Output :
-'   NA
-'
-' Example :
-'   NA
-'
-' Notes :
-'   NA
-'--------------------------------------------------------
-Sub OnUpdateClick(control As IRibbonControl)
-    Call openURL(g_LatestReleaseURL)
-End Sub
 '--------------------------------------------------------
 ' Function      : openURL
 ' Author        : BeeniGit
