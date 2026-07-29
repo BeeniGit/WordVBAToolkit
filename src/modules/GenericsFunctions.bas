@@ -1,9 +1,16 @@
 Attribute VB_Name = "GenericsFunctions"
+' Update variables
 Public g_LatestVersion As String
 Public g_LatestReleaseURL As String
-
 Public g_UpdateAvailable As Boolean
 Public g_NetworkError As Boolean
+
+' Registry Constant
+Private Const REGISTRY_APP As String = "WordVBAToolkit"
+Private Const REGISTRY_SECTION As String = "Updates"
+Private Const REGISTRY_KEY_NOTIF As String = "NotifyDisabled"
+Private Const REGISTRY_KEY_DATE As String = "LastCheckDate"
+
 
 '--------------------------------------------------------
 ' Function      : GetColorFromName
@@ -334,7 +341,7 @@ End Function
 '       -1: The local version is lower than the latest version.
 '       0 : The two versions are identical.
 '--------------------------------------------------------
-Public Function CompareVersions(ByVal lovalVersion As String, ByVal lastVersion As String) As Integer
+Function CompareVersions(ByVal lovalVersion As String, ByVal lastVersion As String) As Integer
     Dim localVersionParts() As String
     Dim lastVersionParts() As String
     Dim localVersionValue As Long
@@ -384,7 +391,7 @@ End Function
 ' Notes :
 '   NA
 '--------------------------------------------------------
-Public Function CheckForUpdates() As Boolean
+Function CheckForUpdates(Optional ByVal forceCheck As Boolean = False) As Boolean
     Dim json As String
     Dim latestTag As String
     Dim latestURL As String
@@ -417,7 +424,117 @@ Public Function CheckForUpdates() As Boolean
     CheckForUpdates = g_UpdateAvailable
 End Function
 
+'--------------------------------------------------------
+' Function      : SetUpdateNotificationDisabled
+' Author        : BeeniGit
+' Date          : 29/07/2026
+' Version       : 1.0
+' History       :
+'
+' Description :
+'   Save into Windows registry the user preferences for the update notifications
+'
+' Parameters :
+'   NA
+'
+' Output :
+'   NA
+'
+' Example :
+'   NA
+'
+' Notes :
+'   NA
+'--------------------------------------------------------
+Sub SetUpdateNotificationDisabled(ByVal disabled As Boolean)
+    Call SaveSetting(REGISTRY_APP, REGISTRY_SECTION, REGISTRY_KEY_NOTIF, IIf(disabled, "1", "0"))
+End Sub
 
+'--------------------------------------------------------
+' Function      : GetUpdateNotificationDisabled
+' Author        : BeeniGit
+' Date          : 29/07/2026
+' Version       : 1.0
+' History       :
+'
+' Description :
+'   Get from the Windows registry the user preferences for the update notifications
+'
+' Parameters :
+'   NA
+'
+' Output :
+'   Boolean : User preferences stored into the registry
+'
+' Example :
+'   NA
+'
+' Notes :
+'   NA
+'--------------------------------------------------------
+Function GetUpdateNotificationDisabled() As Boolean
+    Dim regValue As Integer
+    
+    regValue = GetSetting(REGISTRY_APP, REGISTRY_SECTION, REGISTRY_KEY_NOTIF)
+    
+    If regValue = 1 Then
+        GetUpdateNotificationDisabled = True
+    Else
+        GetUpdateNotificationDisabled = False
+    End If
+End Function
+
+'--------------------------------------------------------
+' Function      : SetUpdateDate
+' Author        : BeeniGit
+' Date          : 29/07/2026
+' Version       : 1.0
+' History       :
+'
+' Description :
+'   Save into the Windows registry last check for update
+'
+' Parameters :
+'   NA
+'
+' Output :
+'   NA
+'
+' Example :
+'   NA
+'
+' Notes :
+'   NA
+'--------------------------------------------------------
+Sub SetUpdateDate()
+    Call SaveSetting(REGISTRY_APP, REGISTRY_SECTION, REGISTRY_KEY_DATE, CStr(Now))
+End Sub
+
+'--------------------------------------------------------
+' Function      : GetLastUpdateDate
+' Author        : BeeniGit
+' Date          : 29/07/2026
+' Version       : 1.0
+' History       :
+'
+' Description :
+'   Get from the Windows registry last check for update
+'
+' Parameters :
+'   NA
+'
+' Output :
+'   String : Date stored into the Windows registry
+'
+' Example :
+'   NA
+'
+' Notes :
+'   NA
+'--------------------------------------------------------
+Function GetLastUpdateDate() As String
+    GetLastUpdateDate = GetSetting(REGISTRY_APP, REGISTRY_SECTION, REGISTRY_KEY_NOTIF)
+End Function
 
 '--------------------------------------------------------
 ' Function      : openURL

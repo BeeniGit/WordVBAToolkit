@@ -16,10 +16,10 @@ Attribute VB_Exposed = False
 '--------------------------------------------------------
 ' Sub      : UserForm_Initialize
 ' Author   : BeeniGit
-' Date     : 24/07/2026
+' Date     : 29/07/2026
 ' Version  : 1.2
 ' History  : 1.1 - 23/07/2026 => Use constant for initialization
-'            1.2 - 24/07/2026 => Add the lblUpdate function to check the local version vs the repository version
+'            1.2 - 29/07/2026 => Add the lblUpdate function to check the local version vs the repository version, add the callback for the register
 '
 ' Description :
 '   About form initialization
@@ -46,8 +46,39 @@ Private Sub UserForm_Initialize()
     lblMainContributor.Caption = "Principal contributor : " & GIT_MAIN_CONTRIBUTOR
     lblMajorContributors.Caption = "Major contributors : " & GIT_MAJOR_CONTRIBUTORS
     
+    Call chkDisableNotifUpdate
     Call lblUpdate
     
+End Sub
+
+'--------------------------------------------------------
+' Sub      : chkDisableNotifUpdate
+' Author   : BeeniGit
+' Date     : 29/07/2026
+' Version  : 1.0
+' History  :
+'
+' Description :
+'   Update the label lblUpdateStatus in accordance to the output from the function CheckForUpdates
+'
+' Parameters :
+'   N/A
+'
+' Output :
+'   N/A
+'
+' Example :
+'   N/A
+'
+' Notes :
+'   N/A
+'--------------------------------------------------------
+Private Sub chkDisableNotifUpdate()
+    If GetUpdateNotificationDisabled Then
+        chkDisableNotif.Value = "True"
+    Else
+        chkDisableNotif.Value = "False"
+    End If
 End Sub
 
 '--------------------------------------------------------
@@ -140,7 +171,7 @@ End Sub
 '--------------------------------------------------------
 ' Sub      : btnManualCheck_Click
 ' Author   : BeeniGit
-' Date     : 24/07/2026
+' Date     : 29/07/2026
 ' Version  : 1.0
 ' History  :
 '
@@ -160,7 +191,7 @@ End Sub
 '   N/A
 '--------------------------------------------------------
 Private Sub btnManualCheck_Click()
-    Call lblUpdate
+    Call lblUpdate(True)
 End Sub
 
 '--------------------------------------------------------
@@ -187,6 +218,32 @@ End Sub
 '--------------------------------------------------------
 Private Sub btnReleaseInfo_Click()
     Call openURL(g_LatestReleaseURL)
+End Sub
+
+'--------------------------------------------------------
+' Sub      : chkDisableNotif_Click
+' Author   : BeeniGit
+' Date     : 29/07/2026
+' Version  : 1.0
+' History  :
+'
+' Description :
+'   Call the save function when event occurs on the check button
+'
+' Parameters :
+'   N/A
+'
+' Output :
+'   N/A
+'
+' Example :
+'   N/A
+'
+' Notes :
+'   N/A
+'--------------------------------------------------------
+Private Sub chkDisableNotif_Click()
+    Call SetUpdateNotificationDisabled(chkDisableNotif.Value)
 End Sub
 
 '--------------------------------------------------------
