@@ -27,7 +27,7 @@ Sub GetUpdateVisible(control As IRibbonControl, ByRef returnedVal)
     ' Check the update status only one time
     If Not firstUpdateCheck Then
         firstUpdateCheck = True
-        CheckForUpdates
+        Call LaunchCheckUpdates
     End If
     returnedVal = g_UpdateAvailable
 End Sub

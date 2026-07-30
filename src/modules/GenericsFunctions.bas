@@ -421,7 +421,25 @@ Function CheckForUpdates(Optional ByVal forceCheck As Boolean = False) As Boolea
     
     g_UpdateAvailable = (CompareVersions(TOOLKIT_VERSION, latestTag) < 0)
 
+    Call SetUpdateDate(CStr(Now))
     CheckForUpdates = g_UpdateAvailable
+End Function
+
+Function LaunchCheckUpdates(Optional ByVal forceCheck As Boolean = False) As Boolean
+    Dim checkStatus As Boolean
+    Dim lastCheckDate As String
+    
+    lastCheckDate = GetLastUpdateDate
+    
+    If forceCheck Then
+        checkStatus = CheckForUpdates
+    ElseIf lastCheckDate = "" Then
+        checkStatus = CheckForUpdates
+    ElseIf IsDate(lastCheckDate) Then
+        If CDate(lastCheckDate) < Now - 1 Then
+            checkStatus = CheckForUpdates
+        End If
+    End If
 End Function
 
 '--------------------------------------------------------
@@ -506,8 +524,8 @@ End Function
 ' Notes :
 '   NA
 '--------------------------------------------------------
-Sub SetUpdateDate()
-    Call SaveSetting(REGISTRY_APP, REGISTRY_SECTION, REGISTRY_KEY_DATE, CStr(Now))
+Sub SetUpdateDate(dateString As String)
+    Call SaveSetting(REGISTRY_APP, REGISTRY_SECTION, REGISTRY_KEY_DATE, dateString)
 End Sub
 
 '--------------------------------------------------------
@@ -533,7 +551,7 @@ End Sub
 '   NA
 '--------------------------------------------------------
 Function GetLastUpdateDate() As String
-    GetLastUpdateDate = GetSetting(REGISTRY_APP, REGISTRY_SECTION, REGISTRY_KEY_NOTIF)
+    GetLastUpdateDate = GetSetting(REGISTRY_APP, REGISTRY_SECTION, REGISTRY_KEY_DATE)
 End Function
 
 '--------------------------------------------------------

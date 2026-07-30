@@ -103,8 +103,8 @@ End Sub
 ' Notes :
 '   N/A
 '--------------------------------------------------------
-Private Sub lblUpdate()
-    If CheckForUpdates() Then
+Private Sub lblUpdate(Optional ByVal forceCheck As Boolean = False)
+    If LaunchCheckUpdates(forceCheck) Then
         lblUpdateStatus.Caption = "A new version is available : " & g_LatestVersion
     ElseIf g_NetworkError Then
         lblUpdateStatus.Caption = "Connection error"
