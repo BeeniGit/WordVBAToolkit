@@ -128,3 +128,29 @@ End Sub
 Sub LaunchAboutForm(control As IRibbonControl)
     AboutForm.show
 End Sub
+
+'--------------------------------------------------------
+' Function      : About_Form
+' Author        : BeeniGit
+' Date          : 31/07/2026
+' Version       : 1.0
+' History       :
+'
+' Description :
+'   Launch the About form using the macros list
+'
+' Parameters :
+'   N/A
+'
+' Output :
+'   N/A
+'
+' Example :
+'   N/A
+'
+' Notes :
+'   N/A
+'--------------------------------------------------------
+Sub About_Form()
+    AboutForm.show
+End Sub

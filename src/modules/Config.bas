@@ -4,7 +4,7 @@ Attribute VB_Name = "Config"
 
 '---- Toolkit informations ----
 ' release
-Public Const TOOLKIT_VERSION As String = "v1.1.0" 'Version format v{majorUpdate}.{minorUpdate}.{Patch}
+Public Const TOOLKIT_VERSION As String = "v1.0.0" 'Version format v{majorUpdate}.{minorUpdate}.{Patch}
 Public Const TOOLKIT_RELEASE_DATE As String = "23/07/2026" 'Date format DD/MM/YYYY
     
 ' Git informations

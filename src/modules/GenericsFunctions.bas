@@ -1,16 +1,18 @@
 Attribute VB_Name = "GenericsFunctions"
 ' Update variables
-Public g_LatestVersion As String
-Public g_LatestReleaseURL As String
-Public g_UpdateAvailable As Boolean
-Public g_NetworkError As Boolean
+Public g_LatestVersion              As String
+Public g_LatestReleaseURL           As String
+Public g_UpdateAvailable            As Boolean
+Public g_NetworkError               As Boolean
 
 ' Registry Constant
-Private Const REGISTRY_APP As String = "WordVBAToolkit"
-Private Const REGISTRY_SECTION As String = "Updates"
-Private Const REGISTRY_KEY_NOTIF As String = "NotifyDisabled"
-Private Const REGISTRY_KEY_DATE As String = "LastCheckDate"
-
+Private Const REGISTRY_APP          As String = "WordVBAToolkit"
+Private Const REGISTRY_SECTION      As String = "Updates"
+Private Const REGISTRY_KEY_NOTIF    As String = "NotifyDisabled"
+Private Const REGISTRY_KEY_DATE     As String = "LastCheckDate"
+Private Const REGISTRY_KEY_STATUS   As String = "Status"
+Private Const REGISTRY_KEY_VERSION  As String = "Version"
+Private Const REGISTRY_KEY_URL      As String = "URL"
 
 '--------------------------------------------------------
 ' Function      : GetColorFromName
@@ -252,7 +254,7 @@ Private Function GetLatestReleaseJSON() As String
     http.Send
 
     ' Get status of the request
-    If http.Status = 200 Then
+    If http.status = 200 Then
         ' Github answer with the JSON file
         GetLatestReleaseJSON = http.responseText
         g_NetworkError = False
@@ -372,12 +374,134 @@ End Function
 '--------------------------------------------------------
 ' Function      : CheckForUpdates
 ' Author        : BeeniGit
-' Date          : 24/07/2026
+' Date          : 31/07/2026
 ' Version       : 1.0
 ' History       :
 '
 ' Description :
 '   Check the local version of the toolkit with the last version of the repository
+'   This function send the request to the git repo to get the JSON file, check the tag into and compare the actual version "TOOLKIT_VERSION" with the version get into the JSON.
+'
+' Parameters :
+'   NA
+'
+' Output :
+'   CheckForUpdates     (Integer) : Update status of the check Update. For more information about the output value, check the notes.
+'
+' Example :
+'   NA
+'.
+' Notes :
+'   0 => Local version match with the last version on the git repo
+'   1 => A new tool version is available.
+'   15 => Network error.
+'   16 => JSON file key error
+'   17 => No check or notifications of the update.
+'--------------------------------------------------------
+Function CheckForUpdates(Optional ByVal forceCheck As Boolean = False) As Integer
+    Dim updateStatus As Integer
+    Dim json As String
+    Dim latestTag As String
+    Dim latestURL As String
+    
+    If Not IIf(GetRegistryValue(REGISTRY_KEY_NOTIF) = "1", True, False) Or forceCheck Then
+        ' Get the JSON file from the last release
+        json = GetLatestReleaseJSON()
+        
+        ' Check if empty file
+        If json = "" And g_NetworkError Then
+            updateStatus = 15
+        Else:
+            ' Search the key "tag_name" into the json file
+            latestTag = ExtractJSONValue(json, "tag_name")
+            
+            ' Search the key "html_url" into the json file
+            latestURL = ExtractJSONValue(json, "html_url")
+            If latestTag = "" Or latestURL = "" Then
+                updateStatus = 16
+            Else
+                g_LatestVersion = latestTag
+                g_LatestReleaseURL = latestURL
+                
+                ' Compare the TOOLKIT_VERSION and the version of the git repo
+                If CompareVersions(TOOLKIT_VERSION, latestTag) < 0 Then
+                    updateStatus = 1
+                Else
+                    updateStatus = 0
+                End If
+            
+                Call SetRegistryValue(REGISTRY_KEY_DATE, CStr(Now))
+            End If
+        End If
+    Else
+        updateStatus = 17
+    End If
+    
+    Call SetRegistryValue(REGISTRY_KEY_STATUS, CStr(updateStatus))
+    Call SetRegistryValue(REGISTRY_KEY_VERSION, CStr(g_LatestVersion))
+    Call SetRegistryValue(REGISTRY_KEY_URL, CStr(g_LatestReleaseURL))
+    CheckForUpdates = updateStatus
+End Function
+
+'--------------------------------------------------------
+' Function      : LaunchCheckUpdates
+' Author        : BeeniGit
+' Date          : 31/07/2026
+' Version       : 1.0
+' History       :
+'
+' Description :
+'   Check the conditions to launch the CheckForUpdates.
+'   The conditions are the manual check, the first start-up with empty registry or the last check was made more than a day ago.
+'   With this function, the check is made only one time per day to avoid network flowding or application freezing.
+'
+' Parameters :
+'   NA
+'
+' Output :
+'   LaunchCheckUpdates  (Integer) : Update status of the check Update. For more information about the output value, check the notes of the function "CheckForUpdates".
+'
+' Example :
+'   NA
+'
+' Notes :
+'   NA
+'--------------------------------------------------------
+Function LaunchCheckUpdates(Optional ByVal forceCheck As Boolean = False) As Integer
+    Dim checkStatus As Integer
+    Dim lastCheckDate As String
+    
+    ' Get the last check date into the registry.
+    lastCheckDate = GetRegistryValue(REGISTRY_KEY_DATE)
+    
+    ' If first tool opening or manual check.
+    If forceCheck Or lastCheckDate = "" Then
+        checkStatus = CheckForUpdates(forceCheck)
+    
+    ' If lastCheckDate is corresponding to the date format.
+    ElseIf IsDate(lastCheckDate) Then
+        ' If lastCheckDate is lowwer
+        If CDate(lastCheckDate) < Now - 1 Then
+            checkStatus = CheckForUpdates()
+        Else
+            checkStatus = CInt(GetRegistryValue(REGISTRY_KEY_STATUS))
+            g_LatestVersion = GetRegistryValue(REGISTRY_KEY_VERSION)
+            g_LatestReleaseURL = GetRegistryValue(REGISTRY_KEY_URL)
+        End If
+    End If
+    g_UpdateAvailable = checkStatus
+    LaunchCheckUpdates = checkStatus
+End Function
+
+'--------------------------------------------------------
+' Function      : SetRegistryValue
+' Author        : BeeniGit
+' Date          : 31/07/2026
+' Version       : 1.0
+' History       :
+'
+' Description :
+'   Save into Windows registry the tool informations
 '
 ' Parameters :
 '   NA
@@ -391,61 +515,40 @@ End Function
 ' Notes :
 '   NA
 '--------------------------------------------------------
-Function CheckForUpdates(Optional ByVal forceCheck As Boolean = False) As Boolean
-    Dim json As String
-    Dim latestTag As String
-    Dim latestURL As String
-    
-    ' Get the JSON file from the last release
-    json = GetLatestReleaseJSON()
+Sub SetRegistryValue(registryKey As String, value As String)
+    Call SaveSetting(REGISTRY_APP, REGISTRY_SECTION, registryKey, value)
+End Sub
 
-    ' Check if empty file
-    If json = "" Then
-        Exit Function
-    End If
-    
-    ' Search the key "tag_name" into the json file
-    latestTag = ExtractJSONValue(json, "tag_name")
-    If latestTag = "" Then
-        Exit Function
-    End If
-    
-    ' Search the key "html_url" into the json file
-    latestURL = ExtractJSONValue(json, "html_url")
-    If latestURL = "" Then
-        Exit Function
-    End If
-
-    g_LatestVersion = latestTag
-    g_LatestReleaseURL = latestURL
-    
-    g_UpdateAvailable = (CompareVersions(TOOLKIT_VERSION, latestTag) < 0)
-
-    Call SetUpdateDate(CStr(Now))
-    CheckForUpdates = g_UpdateAvailable
-End Function
-
-Function LaunchCheckUpdates(Optional ByVal forceCheck As Boolean = False) As Boolean
-    Dim checkStatus As Boolean
-    Dim lastCheckDate As String
-    
-    lastCheckDate = GetLastUpdateDate
-    
-    If forceCheck Then
-        checkStatus = CheckForUpdates
-    ElseIf lastCheckDate = "" Then
-        checkStatus = CheckForUpdates
-    ElseIf IsDate(lastCheckDate) Then
-        If CDate(lastCheckDate) < Now - 1 Then
-            checkStatus = CheckForUpdates
-        End If
-    End If
+'--------------------------------------------------------
+' Function      : GetRegistryValue
+' Author        : BeeniGit
+' Date          : 31/07/2026
+' Version       : 1.0
+' History       :
+'
+' Description :
+'   Get from the Windows registry the tool information
+'
+' Parameters :
+'   NA
+'
+' Output :
+'   String : Value from the target registry
+'
+' Example :
+'   NA
+'
+' Notes :
+'   NA
+'--------------------------------------------------------
+Function GetRegistryValue(registryKey As String) As String
+    GetRegistryValue = GetSetting(REGISTRY_APP, REGISTRY_SECTION, registryKey)
 End Function
 
 '--------------------------------------------------------
 ' Function      : SetUpdateNotificationDisabled
 ' Author        : BeeniGit
-' Date          : 29/07/2026
+' Date          : 31/07/2026
 ' Version       : 1.0
 ' History       :
 '
@@ -462,16 +565,17 @@ End Function
 '   NA
 '
 ' Notes :
-'   NA
+'   Store the string character "0" if the parameter "disabled is False.
+'   Store the string character "1" if the parameter "disabled is True.
 '--------------------------------------------------------
 Sub SetUpdateNotificationDisabled(ByVal disabled As Boolean)
-    Call SaveSetting(REGISTRY_APP, REGISTRY_SECTION, REGISTRY_KEY_NOTIF, IIf(disabled, "1", "0"))
+    Call SetRegistryValue(REGISTRY_KEY_NOTIF, IIf(disabled, "1", "0"))
 End Sub
 
 '--------------------------------------------------------
 ' Function      : GetUpdateNotificationDisabled
 ' Author        : BeeniGit
-' Date          : 29/07/2026
+' Date          : 31/07/2026
 ' Version       : 1.0
 ' History       :
 '
@@ -482,7 +586,7 @@ End Sub
 '   NA
 '
 ' Output :
-'   Boolean : User preferences stored into the registry
+'   GetUpdateNotificationDisabled   (Boolean) : User preferences stored into the registry
 '
 ' Example :
 '   NA
@@ -493,65 +597,13 @@ End Sub
 Function GetUpdateNotificationDisabled() As Boolean
     Dim regValue As Integer
     
-    regValue = GetSetting(REGISTRY_APP, REGISTRY_SECTION, REGISTRY_KEY_NOTIF)
+    regValue = GetRegistryValue(REGISTRY_KEY_NOTIF)
     
     If regValue = 1 Then
         GetUpdateNotificationDisabled = True
     Else
         GetUpdateNotificationDisabled = False
     End If
-End Function
-
-'--------------------------------------------------------
-' Function      : SetUpdateDate
-' Author        : BeeniGit
-' Date          : 29/07/2026
-' Version       : 1.0
-' History       :
-'
-' Description :
-'   Save into the Windows registry last check for update
-'
-' Parameters :
-'   NA
-'
-' Output :
-'   NA
-'
-' Example :
-'   NA
-'
-' Notes :
-'   NA
-'--------------------------------------------------------
-Sub SetUpdateDate(dateString As String)
-    Call SaveSetting(REGISTRY_APP, REGISTRY_SECTION, REGISTRY_KEY_DATE, dateString)
-End Sub
-
-'--------------------------------------------------------
-' Function      : GetLastUpdateDate
-' Author        : BeeniGit
-' Date          : 29/07/2026
-' Version       : 1.0
-' History       :
-'
-' Description :
-'   Get from the Windows registry last check for update
-'
-' Parameters :
-'   NA
-'
-' Output :
-'   String : Date stored into the Windows registry
-'
-' Example :
-'   NA
-'
-' Notes :
-'   NA
-'--------------------------------------------------------
-Function GetLastUpdateDate() As String
-    GetLastUpdateDate = GetSetting(REGISTRY_APP, REGISTRY_SECTION, REGISTRY_KEY_DATE)
 End Function
 
 '--------------------------------------------------------
@@ -576,7 +628,7 @@ End Function
 ' Notes :
 '   NA
 '--------------------------------------------------------
-Public Sub openURL(url As String)
+Sub openURL(url As String)
     ' Check if the url is NULL
     If url <> "" Then
         ' Link the error to the ErrorHandler section

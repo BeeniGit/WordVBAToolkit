@@ -74,17 +74,17 @@ End Sub
 '   N/A
 '--------------------------------------------------------
 Private Sub chkDisableNotifUpdate()
-    If GetUpdateNotificationDisabled Then
-        chkDisableNotif.Value = "True"
+    If GetUpdateNotificationDisabled() Then
+        chkDisableNotif.value = "True"
     Else
-        chkDisableNotif.Value = "False"
+        chkDisableNotif.value = "False"
     End If
 End Sub
 
 '--------------------------------------------------------
 ' Sub      : lblUpdate
 ' Author   : BeeniGit
-' Date     : 24/07/2026
+' Date     : 31/07/2026
 ' Version  : 1.0
 ' History  :
 '
@@ -104,14 +104,17 @@ End Sub
 '   N/A
 '--------------------------------------------------------
 Private Sub lblUpdate(Optional ByVal forceCheck As Boolean = False)
-    If LaunchCheckUpdates(forceCheck) Then
-        lblUpdateStatus.Caption = "A new version is available : " & g_LatestVersion
-    ElseIf g_NetworkError Then
-        lblUpdateStatus.Caption = "Connection error"
-    Else
-        lblUpdateStatus.Caption = "You are already up to date"
-    End If
-
+    Dim checkStatus As Integer
+    
+    checkStatus = LaunchCheckUpdates(forceCheck)
+    
+    Select Case checkStatus:
+        Case 0: lblUpdateStatus.Caption = "You are already up to date."
+        Case 1: lblUpdateStatus.Caption = "A new version is available : " & g_LatestVersion & "."
+        Case 15: lblUpdateStatus.Caption = "Connection error."
+        Case 16: lblUpdateStatus.Caption = "Data extraction error."
+        Case 17: lblUpdateStatus.Caption = "Unverified because of your preferences."
+    End Select
 End Sub
 
 '--------------------------------------------------------
@@ -243,7 +246,7 @@ End Sub
 '   N/A
 '--------------------------------------------------------
 Private Sub chkDisableNotif_Click()
-    Call SetUpdateNotificationDisabled(chkDisableNotif.Value)
+    Call SetUpdateNotificationDisabled(chkDisableNotif.value)
 End Sub
 
 '--------------------------------------------------------

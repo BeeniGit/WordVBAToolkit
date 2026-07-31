@@ -24,12 +24,12 @@ Private firstUpdateCheck As Boolean
 '   NA
 '--------------------------------------------------------
 Sub GetUpdateVisible(control As IRibbonControl, ByRef returnedVal)
-    ' Check the update status only one time
-    If Not firstUpdateCheck Then
-        firstUpdateCheck = True
-        Call LaunchCheckUpdates
+    ' Check the status output of the LaunchCheckUpdates function
+    If LaunchCheckUpdates() = 1 Then
+        returnedVal = True
+    Else
+        returnedVal = False
     End If
-    returnedVal = g_UpdateAvailable
 End Sub
 
 '--------------------------------------------------------
