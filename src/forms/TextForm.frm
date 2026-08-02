@@ -107,12 +107,12 @@ Private Sub btnOK_Click()
     ' Call the module function
     Call LaunchSearchWithFormatting( _
                 txtStrings.Text, _
-                cmbFontColor.Value, _
+                cmbFontColor.value, _
                 cmbFontSize, _
-                chkBold.Value, _
-                chkItalic.Value, _
-                chkUnderline.Value, _
-                chkMatchWord.Value, _
+                chkBold.value, _
+                chkItalic.value, _
+                chkUnderline.value, _
+                chkMatchWord.value, _
                 chkNoModifications)
 
     ' Close the form
@@ -257,11 +257,11 @@ Private Sub UpdatePreview()
     Dim size As Single
     
     ' Get the RGB value of the color choose by the user
-    color = GetColorFromName(cmbFontColor.Value)
+    color = GetColorFromName(cmbFontColor.value)
     
     ' Get the font size choose by the user
-    If IsNumeric(cmbFontSize.Value) Then
-        size = val(cmbFontSize.Value)
+    If IsNumeric(cmbFontSize.value) Then
+        size = val(cmbFontSize.value)
     Else
         size = 12
     End If
@@ -270,9 +270,9 @@ Private Sub UpdatePreview()
     With lblPreview
         .Caption = "Example"
         .Font.size = size
-        .Font.Bold = chkBold.Value
-        .Font.Italic = chkItalic.Value
-        .Font.Underline = chkUnderline.Value
+        .Font.Bold = chkBold.value
+        .Font.Italic = chkItalic.value
+        .Font.Underline = chkUnderline.value
         .ForeColor = color
     End With
 End Sub

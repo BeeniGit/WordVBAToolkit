@@ -121,21 +121,21 @@ Private Sub UserForm_Initialize()
         .ListIndex = 0
     End With
     
-    txtColumns.Value = TABLE_COL_DEF_VALUE
-    txtRows.Value = TABLE_ROW_DEF_VALUE
+    txtColumns.value = TABLE_COL_DEF_VALUE
+    txtRows.value = TABLE_ROW_DEF_VALUE
 
     ' Columns SpinButton
     With spnColumns
         .Min = TABLE_COLROW_MIN
         .Max = TABLE_COLROW_MAX
-        .Value = TABLE_COL_DEF_VALUE
+        .value = TABLE_COL_DEF_VALUE
     End With
 
     ' Row SpinButton
     With spnRows
         .Min = TABLE_COLROW_MIN
         .Max = TABLE_COLROW_MAX
-        .Value = TABLE_ROW_DEF_VALUE
+        .value = TABLE_ROW_DEF_VALUE
     End With
     
     txtWordsColumn = WORDS_COL_DEF_VALUE
@@ -143,7 +143,7 @@ Private Sub UserForm_Initialize()
     With spnWordsColumn
         .Min = WORDS_COL_MIN
         .Max = WORDS_COL_MAX
-        .Value = WORDS_COL_DEF_VALUE
+        .value = WORDS_COL_DEF_VALUE
     End With
 End Sub
 
@@ -170,7 +170,7 @@ End Sub
 '   N/A
 '--------------------------------------------------------
 Private Sub spnColumns_Change()
-    txtColumns.Value = spnColumns.Value
+    txtColumns.value = spnColumns.value
 End Sub
 
 '--------------------------------------------------------
@@ -200,33 +200,33 @@ Private Sub txtColumns_Change()
     Dim val As Long
     
     ' Check if the user input for rows contains only numeric value
-    If Not IsNumeric(txtColumns.Value) Then
+    If Not IsNumeric(txtColumns.value) Then
         Call ErrorMessageDisplay("TableNumeric")
         Exit Sub
     End If
     
     ' Minimum number of columns for tables
-    If txtColumns.Value < TABLE_COLROW_MIN Then
+    If txtColumns.value < TABLE_COLROW_MIN Then
         Call ErrorMessageDisplay("TableMin", TABLE_COLROW_MIN)
         Exit Sub
     End If
     
     ' Maximum number of columns for tables
-    If txtColumns.Value > TABLE_COLROW_MAX Then
+    If txtColumns.value > TABLE_COLROW_MAX Then
         Call ErrorMessageDisplay("TableMax", TABLE_COLROW_MAX)
         Exit Sub
     End If
      
-    val = CLng(txtColumns.Value)
+    val = CLng(txtColumns.value)
     
     ' Check if the user value is a number
-    If IsNumeric(txtColumns.Value) Then
+    If IsNumeric(txtColumns.value) Then
     
         ' Check the limitation of the spinbutton
         If val >= TABLE_COL_MIN And val <= TABLE_COL_MAX Then
             
             ' Update the spinbutton
-            spnColumns.Value = val
+            spnColumns.value = val
         End If
     End If
 End Sub
@@ -254,7 +254,7 @@ End Sub
 '   N/A
 '--------------------------------------------------------
 Private Sub spnRows_Change()
-    txtRows.Value = spnRows.Value
+    txtRows.value = spnRows.value
 End Sub
 
 '--------------------------------------------------------
@@ -284,32 +284,32 @@ Private Sub txtRows_Change()
     Dim val As Long
     
     ' Check if the user input for rows contains only numeric value
-    If Not IsNumeric(txtRows.Value) Then
+    If Not IsNumeric(txtRows.value) Then
         Call ErrorMessageDisplay("TableNumeric")
         Exit Sub
     End If
 
     ' Minimum number of rows for tables
-    If txtRows.Value < TABLE_COLROW_MIN Then
+    If txtRows.value < TABLE_COLROW_MIN Then
         Call ErrorMessageDisplay("TableMin", TABLE_COLROW_MIN)
         Exit Sub
     End If
     
     ' Maximum number of rows for tables
-    If txtRows.Value > TABLE_COLROW_MAX Then
+    If txtRows.value > TABLE_COLROW_MAX Then
         Call ErrorMessageDisplay("TableMax", TABLE_COLROW_MAX)
         Exit Sub
     End If
     
-    val = CLng(txtRows.Value)
+    val = CLng(txtRows.value)
     ' Check if the user value is a number
-    If IsNumeric(txtRows.Value) Then
+    If IsNumeric(txtRows.value) Then
     
         ' Check the limitation of the spinbutton
         If val >= TABLE_COLROW_MIN And val <= TABLE_COLROW_MAX Then
         
             ' Update the spinbutton
-            spnRows.Value = val
+            spnRows.value = val
         End If
     End If
 End Sub
@@ -337,7 +337,7 @@ End Sub
 '   N/A
 '--------------------------------------------------------
 Private Sub spnWordsColumn_Change()
-    txtWordsColumn.Value = spnWordsColumn.Value
+    txtWordsColumn.value = spnWordsColumn.value
 End Sub
 
 '--------------------------------------------------------
@@ -367,33 +367,33 @@ Private Sub txtWordsColumn_Change()
     Dim val As Long
     
     ' Check if the user input for words columns contains only numeric value
-    If Not IsNumeric(txtWordsColumn.Value) Then
+    If Not IsNumeric(txtWordsColumn.value) Then
         Call ErrorMessageDisplay("WordsNumeric")
         Exit Sub
     End If
     
     ' Minimum number for the words position
-    If txtWordsColumn.Value < WORDS_COL_MIN Then
+    If txtWordsColumn.value < WORDS_COL_MIN Then
         Call ErrorMessageDisplay("WordsMin", WORDS_COL_MIN)
         Exit Sub
     End If
     
     ' Maximum number for the words position
-    If txtWordsColumn.Value > WORDS_COL_MAX Then
+    If txtWordsColumn.value > WORDS_COL_MAX Then
         Call ErrorMessageDisplay("WordsMax", WORDS_COL_MAX)
         Exit Sub
     End If
     
-    val = CLng(txtWordsColumn.Value)
+    val = CLng(txtWordsColumn.value)
     
     ' Check if the user value is a number
-    If IsNumeric(txtWordsColumn.Value) Then
+    If IsNumeric(txtWordsColumn.value) Then
     
         ' Check the limitation of the spinbutton
         If val >= WORDS_COL_MIN And val <= WORDS_COL_MAX Then
         
             ' Update the spinbutton
-            spnWordsColumn.Value = val
+            spnWordsColumn.value = val
         End If
     End If
 End Sub
@@ -469,20 +469,20 @@ Private Sub btnOK_Click()
     ' Call the macro with the entered parameters
     Call InsertWordsFromFile( _
         fileCSV, _
-        cmbDelimiter.Value, _
-        CLng(txtWordsColumn.Value), _
-        cmbOrientation.Value, _
-        CLng(txtColumns.Value), _
-        CLng(txtRows.Value), _
-        cmbBorderColor.Value, _
-        cmbBorderSize.Value, _
-        cmbBorderStyle.Value, _
-        cmbFontColor.Value, _
-        cmbFontSize.Value, _
-        chkBold.Value, _
-        chkItalic.Value, _
-        chkUnderline.Value, _
-        chkRandom.Value)
+        cmbDelimiter.value, _
+        CLng(txtWordsColumn.value), _
+        cmbOrientation.value, _
+        CLng(txtColumns.value), _
+        CLng(txtRows.value), _
+        cmbBorderColor.value, _
+        cmbBorderSize.value, _
+        cmbBorderStyle.value, _
+        cmbFontColor.value, _
+        cmbFontSize.value, _
+        chkBold.value, _
+        chkItalic.value, _
+        chkUnderline.value, _
+        chkRandom.value)
 
     ' Call the form
     Unload Me
