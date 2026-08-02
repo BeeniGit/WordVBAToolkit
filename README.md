@@ -67,6 +67,13 @@ Two uses are possible :
 
 ---
 
+## Auto check for update
+
+Starting from the version v1.2.0, the tool embeds an automatic check for the new version. This feature is available in the About form on the custom Word ribbon.
+For more informations about this visit the wiki page [Auto Update Verification](https://github.com/BeeniGit/WordVBAToolkit/wiki/Auto-Update-Verification)
+
+<img src="images/Setup/AboutForm.png" alt="Alt Text" style="width:40%; height:auto;">
+
 ## Requirements
 - Microsoft Word 2016 or earlier (Desktop version)
 - Macros must be enabled in your Word Trust Center settings.
