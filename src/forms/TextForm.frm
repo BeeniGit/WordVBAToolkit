@@ -107,12 +107,12 @@ Private Sub btnOK_Click()
     ' Call the module function
     Call LaunchSearchWithFormatting( _
                 txtStrings.Text, _
-                cmbFontColor.Value, _
+                cmbFontColor.value, _
                 cmbFontSize, _
-                chkBold.Value, _
-                chkItalic.Value, _
-                chkUnderline.Value, _
-                chkMatchWord.Value, _
+                chkBold.value, _
+                chkItalic.value, _
+                chkUnderline.value, _
+                chkMatchWord.value, _
                 chkNoModifications)
 
     ' Close the form
@@ -174,12 +174,13 @@ End Sub
 '--------------------------------------------------------
 ' Sub      : btnHelp_Click
 ' Author   : BeeniGit
-' Date     : 23/07/2026
-' Version  : 1.1
-' History  : 23/07/2026 => Add the function ErrorMessageDisplay to display the network error. Use constant for connection.
+' Date     : 24/07/2026
+' Version  : 1.2
+' History  : 1.1 - 23/07/2026 => Add the function ErrorMessageDisplay to display the network error. Use constant for connection.
+'            1.2 - 24/07/2026 => Integrate the code lines into a generic function "openURL"
 '
 ' Description :
-'   Open the git URL in the wiki section for the tool Table from list
+'   Open the git URL in the wiki section for the formatting tool
 '
 ' Parameters :
 '   N/A
@@ -194,17 +195,7 @@ End Sub
 '   N/A
 '--------------------------------------------------------
 Private Sub btnHelp_Click()
-    If GIT_REPO <> "" Then
-        On Error GoTo ErrorHandler
-        
-        ThisDocument.FollowHyperlink Address:=GIT_REPO & GIT_HELP_TXT
-        
-    End If
-
-    Exit Sub
-
-ErrorHandler:
-    Call ErrorMessageDisplay("NoConnection")
+    Call openURL(GIT_REPO & GIT_HELP_TXT)
 End Sub
 
 '--------------------------------------------------------
@@ -266,11 +257,11 @@ Private Sub UpdatePreview()
     Dim size As Single
     
     ' Get the RGB value of the color choose by the user
-    color = GetColorFromName(cmbFontColor.Value)
+    color = GetColorFromName(cmbFontColor.value)
     
     ' Get the font size choose by the user
-    If IsNumeric(cmbFontSize.Value) Then
-        size = val(cmbFontSize.Value)
+    If IsNumeric(cmbFontSize.value) Then
+        size = val(cmbFontSize.value)
     Else
         size = 12
     End If
@@ -279,9 +270,9 @@ Private Sub UpdatePreview()
     With lblPreview
         .Caption = "Example"
         .Font.size = size
-        .Font.Bold = chkBold.Value
-        .Font.Italic = chkItalic.Value
-        .Font.Underline = chkUnderline.Value
+        .Font.Bold = chkBold.value
+        .Font.Italic = chkItalic.value
+        .Font.Underline = chkUnderline.value
         .ForeColor = color
     End With
 End Sub
