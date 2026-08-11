@@ -595,11 +595,11 @@ End Sub
 '   NA
 '--------------------------------------------------------
 Function GetUpdateNotificationDisabled() As Boolean
-    Dim regValue As Integer
+    Dim regValue As String
     
     regValue = GetRegistryValue(REGISTRY_KEY_NOTIF)
     
-    If regValue = 1 Then
+    If regValue = "1" Then
         GetUpdateNotificationDisabled = True
     Else
         GetUpdateNotificationDisabled = False
